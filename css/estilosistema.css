@@ -1,0 +1,208 @@
+body {
+	font-family: Arial, Helvetica, sans-serif;
+	font-size: 12px;
+	PADDING-RIGHT: 1px;
+	PADDING-LEFT: 1px; 
+	PADDING-BOTTOM: 1px; 
+	MARGIN: 0px; 
+	PADDING-TOP: 0px; 
+	SCROLLBAR-FACE-COLOR: #FFFFFF; 
+	SCROLLBAR-HIGHLIGHT-COLOR: #FFFFFF; 
+	SCROLLBAR-TRACK-COLOR: #FFFFFF;
+	SCROLLBAR-SHADOW-COLOR: #FFFFFF; 
+	SCROLLBAR-3DLIGHT-COLOR: black; 
+	SCROLLBAR-ARROW-COLOR #006600;
+	/*background-image: url(../imagenes/bg01.jpg);*/
+}
+
+/*.tablaint{
+	font-family: Arial, Helvetica, sans-serif;
+	font-size: 12px;
+	margin: 1px;
+	border-top-style: double;
+	border-right-style: double;
+	border-bottom-style: double;
+	border-left-style: double;
+	border-top-width: 1px;
+	border-right-width: 1px;
+	border-bottom-width: 1px;
+	border-left-width: 1px;
+	background-color:#E6F3FF;
+	color:#003399;
+}
+*/
+th {
+	font-family: Arial, Helvetica, sans-serif;
+	font-size: 13px;
+	text-transform: capitalize;
+	text-align: center;
+	margin: 2px;
+	padding: 2px;
+	border: 1px #FFFFFF;
+	background-color: #BECCFC;
+	background-image: url(../imagenes/th01.jpg);
+}
+/*th a {
+	font-family: Arial, Helvetica, sans-serif;
+	font-size: 11px;
+	color: #FFFFFF;
+	text-transform: capitalize;
+	text-align: center;
+}
+*/a {
+	font-family: Arial, Helvetica, sans-serif;
+	color: #039;
+	font-size: 8pt;
+	text-decoration: underline;
+	font-weight: bold;
+}
+a:hover {
+	TEXT-DECORATION: underline;COLOR: red;
+}
+#titulo01{
+	/*background-color:#FAFAE6;*/
+	font-size: 14px;
+	font-weight: bold;
+	text-align: center;
+	margin: 2px;
+	padding: 2px;
+}
+.titulo {
+	font-family: Arial, Helvetica, sans-serif;
+	font-size: 14px;
+	font-weight: bold;
+	text-align: center;
+	text-transform: uppercase;
+}
+
+.par {
+	font-family: Arial, Helvetica, sans-serif;
+	margin: 2px;
+	padding: 2px;
+	border: 1px inset #003366;
+	background-color:#FFFFFF;
+}
+.impar {
+	font-family: Arial, Helvetica, sans-serif;
+	margin: 2px;
+	padding: 2px;
+	border: 1px inset #003366;
+	background-color:#DEDEDE;
+}
+
+#barramenusup {
+	width:100%;
+	color:#111111;
+	height:28px;
+	background-color: #666600;
+	background-image: url(../imagenes/th01.jpg);
+	}
+#barramenusup ul{
+	display:block;
+	list-style-type:none;
+	padding: 2px;
+	margin: 2px;
+	}
+#barramenusup ul li{
+	display:block;
+	float:left;
+	padding-top: 2px;
+	padding-right: 4px;
+	padding-bottom: 2px;
+	padding-left: 4px;
+	border: thin solid #06F;
+	background-color: #CFF;
+	margin-right: 2px;
+	}
+#barramenusup ul li a{
+	color:#000;
+	text-decoration:none;
+	font-family: Arial, Helvetica, sans-serif;
+	font-size: 12px;
+	font-weight: bold;
+	display: block;
+	background-color: #9FCDFB;
+	}		
+#barramenusup ul li a:hover{
+	background-color:#FFF;
+	}
+img {
+	vertical-align: middle;
+	border-top-style: none;
+	border-right-style: none;
+	border-bottom-style: none;
+	border-left-style: none;
+}
+#menu ul{
+	display:block;
+	padding: 4px;
+	margin: 4px;
+	width: 200px;
+	background-image: url(../imagenes/bg02.jpg);
+	}
+#menu ul li{
+	display:block;
+	border: thin solid #06F;
+	background-color: #CFF;
+	padding: 3px;
+	margin: 3px;
+	}
+#menu ul li a{
+	color:#000;
+	text-decoration:none;
+	font-family: Arial, Helvetica, sans-serif;
+	font-size: 12px;
+	font-weight: bold;
+	display: block;
+	background-color: #9FCDFB;
+	}		
+#menu ul li a:hover{
+	background-color:#FFF;
+	}
+fieldset {
+	border:1px double #003399;
+	background-color:#E6F3FF;
+}
+
+legend {
+	padding: 2px;
+	border:1px double #333300;
+	color:#000000;
+	font-size:11pt;
+	text-align:right;
+	font-weight: bold;
+	margin: 2px;
+	text-transform: capitalize;
+		/*background-image: url(../imagenes/bg02.jpg);*/
+  }
+fieldset table{
+	margin: 2px;
+  }
+
+.alignright {
+	font-size: 12px;
+	font-weight: bold;
+
+	text-align: right;
+}
+
+.alignleft {
+	font-size: 12px;
+	font-weight: bold;
+
+	text-align:left;
+}
+
+.tablaint {
+	font-family: Arial, Helvetica, sans-serif;
+	font-size: 12px;
+	color: #000066;
+	background-color: #DEDEDE;
+}
+
+.registros{
+	font-family: Arial, Helvetica, sans-serif;
+	font-size: 12px;
+	color: #000066;
+	background-color: #DEDEDE;
+}

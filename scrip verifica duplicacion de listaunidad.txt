@@ -1,0 +1,14 @@
+SELECT idproducto,count(idproducto) FROM `listaunidad` group by idproducto having count(idproducto)>1
+
+
+select * from listaunidad where idproducto in (SELECT idproducto FROM `listaunidad` group by idproducto having count(idproducto)>1)
+
+--ejecutar para determinar cuales se repiten
+select * from listaunidad where idproducto in (SELECT idproducto FROM `listaunidad` group by idproducto having count(idproducto)>1) order by idproducto asc
+
+
+--ejecutar para determinar cuales registros se debe eliminar
+select * from listaunidad where idproducto in (SELECT idproducto FROM `listaunidad` group by idproducto having count(idproducto)>1) and idlistaunidad not in (SELECT max(idlistaunidad) FROM `listaunidad` group by idproducto having count(idproducto)>1) order by idproducto asc
+
+
+--finalmente eliminar todos los registros obtenidos con la consulta anterior

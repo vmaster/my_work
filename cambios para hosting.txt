@@ -1,0 +1,238 @@
+<?php
+$manejador="mysql";
+$servidor="localhost";
+$usuario="cguzman_comer";
+$pass="tiendacomercial";
+$base="cguzman_comercial";
+$cadena="$manejador:host=$servidor;dbname=$base";
+$cnx = new PDO($cadena,$usuario,$pass,array(PDO::ATTR_PERSISTENT => true));
+?>
+
+
+
+DROP PROCEDURE `up_BuscarCategoriaProductoArbol`//
+CREATE DEFINER=`cguzman`@`localhost` PROCEDURE `up_BuscarCategoriaProductoArbol`()
+BEGIN 
+Declare vMaxNivel int;
+Declare vNivel int;
+
+CREATE TEMPORARY TABLE categoria_temp 
+(
+IdCategoria Int,
+Descripcion Varchar( 50 ) ,
+IdCategoriaRef Int,
+Nivel Int,
+Secuencia Int AUTO_INCREMENT PRIMARY KEY ,
+CodigoOrden Varchar( 50 ) ,
+Abreviatura Varchar( 10 ),
+Estado Varchar( 1 )
+);
+
+CREATE TEMPORARY TABLE categoria_temp2 
+(
+IdCategoria Int,
+Descripcion Varchar( 50 ) ,
+IdCategoriaRef Int,
+Nivel Int,
+Secuencia Int AUTO_INCREMENT PRIMARY KEY ,
+CodigoOrden Varchar( 50 ) ,
+Abreviatura Varchar( 10 ),
+Estado Varchar( 1 )
+);
+
+Insert Into categoria_temp(IdCategoria, Descripcion, IdCategoriaRef, Nivel, Estado,Abreviatura) Select IdCategoria, Descripcion, IdCategoriaRef, Nivel,Estado,Abreviatura From categoria Where Nivel=1;
+Update categoria_temp Set CodigoOrden=Secuencia;
+
+Insert Into categoria_temp2(IdCategoria, Descripcion, IdCategoriaRef, Nivel,Estado,Abreviatura) Select IdCategoria, Descripcion, IdCategoriaRef, Nivel,Estado,Abreviatura From categoria Where Nivel=1;
+Update categoria_temp2 Set CodigoOrden=Secuencia;
+
+Set vMaxNivel=(Select Max(Nivel) From categoria);
+Set vNivel=2;
+While vNivel<=vMaxNivel Do
+		Insert Into categoria_temp(IdCategoria, Descripcion, IdCategoriaRef, Nivel, CodigoOrden,Estado,Abreviatura) 
+		Select TP.IdCategoria, CONCAT(SPACE(vNivel*2),TP.Descripcion), TP.IdCategoriaRef, TP.Nivel, CONCAT(categoria_temp2.CodigoOrden,'-',TP.Nivel),TP.Estado,TP.Abreviatura
+		From categoria TP Inner Join categoria_temp2 ON TP.IdCategoriaRef = categoria_temp2.IdCategoria
+		Where TP.Nivel=vNivel;
+
+		Update categoria_temp Set CodigoOrden= CONCAT(CodigoOrden,Secuencia) Where Nivel=vNivel;
+                                Truncate categoria_temp2;
+                Insert Into categoria_temp2 Select * From categoria_temp;
+
+		Set vNivel = vNivel + 1;
+End While;
+
+SELECT tem.IdCategoria,tem.Descripcion,tem.IdCategoriaRef,tem.Nivel,tem.Estado,tem.Abreviatura,tem.CodigoOrden,categoria.Descripcion as DescripcionRef FROM (Select * From categoria_temp WHERE Estado='N' Order By CodigoOrden Asc) as tem LEFT JOIN categoria ON tem.IdCategoriaRef=categoria.IdCategoria;
+
+DROP TEMPORARY Table categoria_temp;
+DROP TEMPORARY table categoria_temp2;
+End
+
+
+
+
+
+
+DROP PROCEDURE `up_AgregarStockProducto`//
+CREATE DEFINER=`cguzman`@`localhost` PROCEDURE `up_AgregarStockProducto`(vIdSucursal int, 
+
+vIdProducto int, vIdUnidad int, vStock 
+
+numeric(10,2), vIdMovimiento int, vMoneda 
+
+char(1),	vPrecioUnidad numeric(10,2), 
+
+vFecha datetime, vIdUsuario int)
+BEGIN
+DECLARE vIdUnidadBase INT;
+DECLARE vFormula numeric(18,2);
+DECLARE vStockBase numeric(18,2);
+DECLARE vcount INT;
+DECLARE vSaldoAnterior numeric(18,2);
+DECLARE vNuevoSaldo numeric(18,2);
+DECLARE vIdKardex INT;
+DECLARE vImporte numeric(18,2);
+DECLARE vEstado char(1);
+
+SET vIdUnidadBase=(SELECT IdUnidadBase FROM 
+
+producto WHERE IdProducto = vIdProducto);
+SET vFormula=(SELECT Formula FROM 
+
+listaunidad WHERE IdProducto = vIdProducto 
+
+AND IdUnidad = vIdUnidad AND IdUnidadBase = 
+
+vIdUnidadBase);
+SET vStockBase=vStock*vFormula;
+
+SET vcount=(SELECT CASE WHEN COUNT(*) IS 
+
+NULL THEN 0 ELSE COUNT(*) END FROM 
+
+stockproducto WHERE IdProducto = vIdProducto 
+
+AND IdUnidad = vIdUnidad AND IdSucursal = 
+
+vIdSucursal);
+IF vcount = 0 THEN
+INSERT INTO stockproducto(	
+
+IdStockProducto, IdSucursal, IdProducto, 
+
+IdUnidad, Stock, IdUnidadBase, StockBase) 
+
+VALUES (NULL, vIdSucursal, vIdProducto, 
+
+vIdUnidad, vStock, vIdUnidadBase, vStockBase);
+
+
+ELSE
+	UPDATE stockproducto SET Stock = 
+
+Stock + vStock, StockBase = StockBase + 
+
+vStockBase WHERE IdProducto = vIdProducto 
+
+AND IdUnidad = vIdUnidad AND IdSucursal = 
+
+vIdSucursal;
+END IF;
+
+SET vSaldoAnterior = (SELECT SaldoActual 
+
+FROM kardex WHERE  IdProducto = vIdProducto 
+
+AND IdSucursal = vIdSucursal AND Ultimo = 
+
+'S' ORDER BY IdKardex DESC LIMIT 0,1);
+SET vIdKardex = (SELECT IdKardex FROM kardex 
+
+WHERE  IdProducto = vIdProducto AND 
+
+IdSucursal = vIdSucursal AND Ultimo = 'S' 
+
+ORDER BY IdKardex DESC LIMIT 0,1);
+
+IF vSaldoAnterior IS NULL THEN
+	SET vSaldoAnterior = 0;
+	SET vIdKardex = 0;
+END IF;
+
+UPDATE kardex SET Ultimo = 'N' WHERE 
+
+IdKardex = vIdKardex;
+SET vNuevoSaldo = vSaldoAnterior +  
+
+vStockBase;
+SET vImporte = vStock*vPrecioUnidad;
+IF SUBSTR(vStock,1,1)= '-' THEN
+SET vImporte=-vImporte;
+SET vStock=-vStock;
+SET vStockBase=-vStockBase;
+END IF;
+IF (SELECT Estado FROM movimiento WHERE 
+
+IdMovimiento=vIdMovimiento)='A' THEN
+SET vEstado='A';
+ELSE 
+SET vEstado='N';
+END IF;
+
+INSERT INTO kardex(IdKardex,
+	IdSucursal,
+	IdMovimiento,
+	IdProducto,
+	IdUnidad,
+	Cantidad,
+	TipoMoneda,
+	PrecioUnidad,
+	Importe,
+	Fecha,
+	SaldoAnteriorBase,
+	IdUnidadBase,
+	CantidadBase,
+	SaldoActual,
+	IdUsuario,
+	Ultimo,
+	Estado) VALUES(NULL,
+	vIdSucursal,
+	vIdMovimiento,
+	vIdProducto,
+	vIdUnidad,
+	vStock,
+	vMoneda,
+	vPrecioUnidad,
+	vImporte,
+	vFecha,
+	vSaldoAnterior,
+	vIdUnidadBase,
+	vStockBase,
+	vNuevoSaldo,
+	vIdUsuario,
+	'S',
+	vEstado);
+END
+
+
+
+
+
+
+
+
+
+
+DROP FUNCTION `obtenerStock`//
+CREATE DEFINER=`cguzman`@`localhost` FUNCTION `obtenerStock`(vIdProducto int,vIdUnidad int,vIdSucursal int) RETURNS decimal(16,2)
+BEGIN 
+	DECLARE vStockBase numeric(16,2);
+	DECLARE vIdUnidadBase INT;
+	DECLARE vFormula numeric(18,2);
+	DECLARE vStock numeric(18,2);
+
+	SET vStockBase= (SELECT SUM(StockBase) FROM stockproducto WHERE  IdProducto = vIdProducto AND IdSucursal = vIdSucursal GROUP BY IdProducto);
+	SET vIdUnidadBase=(SELECT IdUnidadBase FROM producto WHERE IdProducto = vIdProducto);
+	SET vFormula=(SELECT Formula FROM listaunidad WHERE IdProducto = vIdProducto AND IdUnidad = vIdUnidad AND IdUnidadBase = vIdUnidadBase);
+	SET vStock = vStockBase / vFormula;
+	RETURN CASE WHEN vStock IS NULL THEN 0 ELSE vStock END;
+END
