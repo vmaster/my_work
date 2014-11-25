@@ -17,9 +17,9 @@ require("../negocio/cls_producto.php");
       	<th><div align='center'>CODIGO</div></th>
 	  	<th><div align='center'>DESCRIPCION</div></th>
 	  	<th><div align='center'>CATEGORIA</div></th>
-		<th><div align='center'>MARCA</div></th></div>
-		<th><div align='center'>COLOR</div></th></div>
-		<th><div align='center'>TALLA</div></th></div>
+		<th><div align='center'>MARCA / LABORATORIO</div></th></div>
+		<!--<th><div align='center'>COLOR</div></th></div>-->
+		<!--<th><div align='center'>TALLA</div></th></div>-->
 		<th><div align='center'>UNIDAD BASE</div></th>
 		<th><div align='center'>PESO</div></th>
 		<th><div align='center'>MEDIDA</div></th>
@@ -27,7 +27,7 @@ require("../negocio/cls_producto.php");
 		<th><div align='center'>ARMARIO</div></th>
 		<th><div align='center'>COLUMNA</div></th>
 		<th><div align='center'>FILA</div></th>
-		<th><div align='center'>KARDEX</div></th>
+		<!--<th><div align='center'>KARDEX</div></th>-->
 		<th colspan='4'><div align='center'>OPERACIONES</div></th>
 		</tr>";
 		
@@ -42,24 +42,24 @@ while($dato = $rst->fetchObject()){
 	$registro.="<td align='center'>".$dato->descripcion."</td>";
 	$registro.="<td align='center'>".$dato->categoria."</td>";
 	$registro.="<td align='center'>".$dato->marca."</td>"; 
-	if($dato->codigocolor==''){
+	/*if($dato->codigocolor==''){
 		$registro.="<td align='center'>".$dato->color."</td>"; 
 	}else{
 		$registro.="<td align='center' title=".$dato->color." bgcolor=".$dato->codigocolor.">&nbsp;</td>"; 
 	}
-	$registro.="<td align='center' title=".$dato->talla.">".$dato->tallaabreviatura."</td>"; 
+	$registro.="<td align='center' title=".$dato->talla.">".$dato->tallaabreviatura."</td>"; */
 	$registro.="<td align='center'>".$dato->unidadbase."</td>";
 	$registro.="<td align='center'>".$dato->peso."</td>";
 	$registro.="<td align='center'>".$dato->medidapeso."</td>";
 	$registro.="<td align='center'>".$mon.$dato->stockseguridad."</td>";
 	$registro.="<td align='center'>".$mon.$dato->armario."</td>";
 	$registro.="<td align='center'>".$mon.$dato->columna."</td>";
-		$registro.="<td align='center'>".$dato->fila."</td>";
-	$registro.="<td align='center'>".$dato->kardex."</td>";
+	$registro.="<td align='center'>".$dato->fila."</td>";
+	/*$registro.="<td align='center'>".$dato->kardex."</td>";*/
 	$registro.="<td><a href='list_listaunidad.php?IdProducto=$dato->idproducto'>Ver Lista Unidad</a></td>";
-$registro.="<td><a href='list_kardex.php?IdProducto=$dato->idproducto'>Ver Kardex</a> </td>";
-$registro.="<td><a href='mant_producto.php?accion=ACTUALIZAR&IdProducto=$dato->idproducto'>Actualizar</a></td>";
-$registro.="<td><a href='../negocio/cont_producto.php?accion=ELIMINAR&IdProducto=$dato->idproducto'>Eliminar</a></td>";
+	/*$registro.="<td><a href='list_kardex.php?IdProducto=$dato->idproducto'>Ver Kardex</a> </td>";*/
+	$registro.="<td><a href='mant_producto.php?accion=ACTUALIZAR&IdProducto=$dato->idproducto'>Actualizar</a></td>";
+	$registro.="<td><a href='../negocio/cont_producto.php?accion=ELIMINAR&IdProducto=$dato->idproducto'>Eliminar</a></td>";
 	}
 	$registro.="</table>";
 	$registro.="<input name='txtImprimir' type='button' id='IMPRIMIR' value='IMPRIMIR' onClick=javascript:window.open('pdf_producto.php?desc=$descripcion&categoria=$categoria&marca=$marca','_blank')>";
