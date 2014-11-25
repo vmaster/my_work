@@ -1,9 +1,11 @@
+<!DOCTYPE html>
 <html>
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1" />
 <title>SISTEMA DE COMERCIALIZACI&oacute;N</title>
 <!--CODIGO PARA EL BANNER-->
 <style type="text/css">
+@import "../css/login.css";
 #banner{float:none;position:relative}
 #banner img{position:absolute;top:0;left:0;}
 </style>
@@ -33,7 +35,7 @@ function MM_jumpMenu(targ,selObj,restore){ //v3.0
 }
 //-->
 </script>
-<script language="javascript"><!--
+<script language="javascript">//<!--
 var form = "";
 var submitted = false;
 var error = false;
@@ -116,7 +118,9 @@ body {
 -->
 </style>
 </head>
-
+<header style="background-color: orange;">
+ <img src="../imagenes/logo.png" width="200px" />
+</header>
 <body>
 <?php  
 require("../datos/cado.php");
@@ -127,7 +131,7 @@ function genera_cboSucursal($seleccionado)
 	$ObjPersona = new clsPersona();
 	$consulta = $ObjPersona->consultarpersonarol(5,'apellidos','','');
 
-	echo "<select name='cboSucursal' id='cboSucursal'>";
+	echo "<select name='cboSucursal' id='cboSucursal' class='cboSucursal' style='width:150px !important;'>";
 	while($registro=$consulta->fetch())
 	{
 		$seleccionar="";
@@ -145,101 +149,65 @@ if(isset($dato->Cambio))
 else
 	$cambio='2.85';
 ?>
-<center>
-<table width="869" height="369" border="0">
-  <tr bgcolor="#DEF5FE">
-    <td height="61" colspan="3">
-      <center>
-      <p>
-        <marquee behavior="alternate" width="100%">
-        <h2>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;BIENVENIDO AL</h2>
-        <h2>SISTEMA DE COMERCIALIZACI&Oacute;N EL XXX</h2>
-          </marquee>
-         </p>
-        </center>
-     </td></tr>
-      <tr bgcolor="#DEF5FE"><td>
-      <p><span class="Estilo5">Productos de la mejor calidad ...</span></p></td><td colspan="2">
-      <table cellpadding="0" cellspacing="0"><tr><td><span style=" font-size:14px">Informes al:</span><br>
-        <div class="Estilo4" align="center"><b>979368623</b></div>
-      <span style=" font-size:11px">LUN - VIE   08:00 - 21:00   &nbsp;&nbsp;&nbsp;|&nbsp;&nbsp; &nbsp;  SAB 09:00 - 21:00&nbsp;&nbsp; </span>
-      </td><td width="57" cellspacing="0" cellpadding="1" ><img src="../imagenes/icono_fono.jpg" alt="" title="" width="57" height="60" /></td>
-      </tr></table>
-  </tr>
-  <tr>
-    <td width="561" height="21" bgcolor="#DEF5FE"><a href="">INICIO</a>  | <a href="../home.html">QUIENES SOMOS</a>  | <a href="">LINEA DE PRODUCTOS</a> | <a href="">OFERTAS</a> | <a href="">SUGERENCIAS</a></td>
-	<td colspan="2" bgcolor="#DEF5FE">&nbsp;&nbsp;&nbsp;</td>
-    </tr>
-  <tr>
-    <td bgcolor="#DEF5FE" valign="top" align="center" height="395"><div id="banner" style="visibility:hidden">
-    
-    	<a href="#"><img src="../imagenes/banner/foto1.jpg" alt="" title="" width="540" height="395" border="0" /></a>
-        <a href="#"><img src="../imagenes/banner/opcion1.jpg" alt="" title="" width="540" height="395" border="0" /></a>
-        <a href="#"><img src="../imagenes/banner/opcion2.jpg" alt="" title="" width="540" height="395" border="0" /></a>
-        <a href="#"><img src="../imagenes/banner/opcion3.jpg" alt="" title="" width="540" height="395" border="0" /></a>
-        <a href="#"><img src="../imagenes/banner/opcion4.jpg" alt="" width="540" height="395" border="0" title="" /></a>
-        <a href="#"><img src="../imagenes/banner/opcion5.jpg" alt="" width="540" height="395" border="0" title="" /></a>
-
-    </div>&nbsp;</td>
-	<td colspan="2" rowspan="2" bgcolor="#DEF5FE">
-<form id="Login" action=<?php echo '../negocio/cont_usuario.php?accion=LOGEO'?> method='POST' onSubmit="return check_form(Login);" name="Login">
-<center>
-<table width="247" height="169" class="tablaint">
-<tr>
-	<th colspan="3">Acceso al Sistema</th>
-</tr>
-<tr>
-                <td class="alignright">Sucursal:</td>
-        <td><?php echo genera_cboSucursal(0)?></td>
-                <td rowspan="5"><img src="../imagenes/acceso.jpg" width="71" height="60"></td>
-</tr>
-              <tr>
-                <td class="alignright">Usuario:</td>
-                <td><input name="txtUsuario" type="text" id="txtUsuario" maxlength="25" /></td>
-              </tr>
-              <tr>
-                <td class="alignright">Clave:</td>
-                <td><input name="txtClave" type="password" id="txtClave" maxlength="32" /></td>
-              </tr>
-              <tr>
-              <td class="alignright">Fecha:</td>
-      <td><input name="txtFechaProceso" type="text" id="txtFechaProceso" value="<?php 
-$mysql_date = date("Y-m-d"); 
-echo $mysql_date;
-?>" size="10">
-        <button type="button" id="btnCalendar" class="boton"><img src="../imagenes/b_views.png"> </button>
-      <script type="text/javascript">//<![CDATA[
-var cal = Calendar.setup({
-  onSelect: function(cal) { cal.hide() },
-  showTime: false
-});
-cal.manageFields("btnCalendar", "txtFechaProceso", "%Y-%m-%d");
-//"%Y-%m-%d %H:%M:%S"
-//]]></script></td>
-              </tr>
-              <tr>
-                <td class="alignright">Tipo Cambio:</td>
-                <td><input name="txtTipoCambio" type="text" id="txtTipoCambio" maxlength="10" size="10" value="<?php echo $cambio;?>" onKeyPress="if (event.keyCode < 46 || event.keyCode > 57) event.returnValue = false;" /></td>
-              </tr>
-              <tr>
-                <th colspan="3">
-                    <input src="../imagenes/btn_ingresar.png" type="image" name="Submit" value="Logearse" />
-                  <br />
-                    <?php if($_GET['error']==1) echo "Datos Necesarios";?>                </th>
-              </tr>
-    </table>
-</center>
-</form>
-    </td>
-  </tr>
-</table>
-</center>
-<p class="MsoNormal" align="center" style="text-align:center">  
+	<div id="envoltura">
+		<div id="mensaje">Mensaje...</div>
+		<div id="contenedor" class="curva">
+			<div id="cabecera" class="tac">
+				Acceso al Sistema
+			</div>
+			<div id="cuerpo">
+				<form id="Login"
+					action=<?php echo '../negocio/cont_usuario.php?accion=LOGEO'?>
+					method='POST' onSubmit="return check_form(Login);" name="Login">
+							<p><label for="sucursal">Sucursal:</label></p>
+							<p class="mb10"><?php echo genera_cboSucursal(0)?></p>
+							<p><label for="usuario">Usuario:</label></p>
+							<p class="mb10"><input name="txtUsuario" type="text" id="txtUsuario"
+									maxlength="25" /></p>
+							<p><label for="contrasenia">Clave:</label></p>
+							<p class="mb10"><input name="txtClave" type="password" id="txtClave"
+									maxlength="32" /></p>
+							<!-- <tr>
+	               <td class="alignright">Fecha:</td>
+	      <td><input name="txtFechaProceso" type="text" id="txtFechaProceso" value="<?php 
+	$mysql_date = date("Y-m-d"); 
+	echo $mysql_date;
+	?>" size="10">
+	        <button type="button" id="btnCalendar" class="boton"><img src="../imagenes/b_views.png"> </button>
+	      <script type="text/javascript">//<![CDATA[
+	var cal = Calendar.setup({
+	  onSelect: function(cal) { cal.hide() },
+	  showTime: false
+	});
+	cal.manageFields("btnCalendar", "txtFechaProceso", "%Y-%m-%d");
+	//"%Y-%m-%d %H:%M:%S"
+	//]]></script></td>
+	              </tr>
+	              <tr>
+	                <td class="alignright">Tipo Cambio:</td>
+	                <td><input name="txtTipoCambio" type="text" id="txtTipoCambio" maxlength="10" size="10" value="<?php echo $cambio;?>" onKeyPress="if (event.keyCode < 46 || event.keyCode > 57) event.returnValue = false;" /></td>
+	              </tr>-->
+							<p>
+								<input
+									type="submit" name="submit" id ="submit" value="Ingresar" class="boton"/> <br /> <?php if($_GET['error']==1) echo "Datos Necesarios";?>
+								</p>
+				</form>
+			</div>
+			<div id="pie" class="tac">Sistema para Botica</div>
+		</div>
+		<!-- fin contenedor -->
+		<div id="nota">
+			<a href="http://gruposistemas.com" title="¿Necesitas un Sitio Web?">GrupoSistemas</a>
+		</div>
+	</div>
+</body>
+<footer>
+	<p class="MsoNormal" align="center" style="text-align:center">  
 <span class="Estilo1" style="font-size: 8pt; font-family: Calibri" lang="EN-US">
   </span>
 <div align="center" class="Estilo1" id='DivEquipo'>
-    <span style="font-size: 8pt; font-family: Calibri" lang="EN-US">Chiclayo - Per&uacute; - 2011 &copy; Ing. Geynen Rossler Montenegro Cochas<br>Totos los derechos reservados</span>
+    <span style="font-size: 8pt; font-family: Calibri" lang="EN-US">Chiclayo - Per&uacute; - 2014 &copy; Ing. Geynen Montenegro C. & Hobra Systems SA<br>Totos los derechos reservados</span>
   </div>
 </p>
-</body>
+</footer>
 </html>
