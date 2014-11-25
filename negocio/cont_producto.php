@@ -18,7 +18,7 @@ function controlador($accion)
 
 	$codigo=$ObjProducto->buscarSiguienteCodigo($_POST['cboCategoria'],$_POST['cboMarca']);
 		 
-	$ObjProducto->insertar($_POST['txtIdProducto'], $codigo, $_POST['txtDescripcion'], $_POST['cboCategoria'], $_POST['cboMarca'], $_POST['cboUnidadBase'], $_POST['txtPeso'], $_POST['cboMedidaPeso'],$_POST['txtStockSeguridad'], $_POST['cboArmario'], $_POST['cboColumna'],$_POST['cboFila'], $_POST['cboKardex'], $_POST['cboColor'], $_POST['cboTalla']);
+	$ObjProducto->insertar($_POST['txtIdProducto'], $codigo, $_POST['txtDescripcion'], $_POST['cboCategoria'], $_POST['cboMarca'], $_POST['cboUnidadBase'], $_POST['txtPeso'], $_POST['cboMedidaPeso'],$_POST['txtStockSeguridad'], $_POST['cboArmario'], $_POST['cboColumna'],$_POST['cboFila'], $_POST['cboKardex'], $_POST['cboColor'], $_POST['cboTalla'], $_POST['cboRecetaMedica']);
 	
 	/*$registro=$ObjProducto->buscar(NULL,$_POST['txtDescripcion'],$_POST['cboCategoria'],$_POST['cboMarca']);
 	$dato=$registro->fetchObject();*/
@@ -43,7 +43,7 @@ function controlador($accion)
 		$cnx->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION); 
 		$cnx->beginTransaction();
 		
-	$ObjProducto->actualizar($_POST['txtIdProducto'], $_POST['txtCodigo'], $_POST['txtDescripcion'], $_POST['cboCategoria'], $_POST['cboMarca'], $_POST['cboUnidadBase'], $_POST['txtPeso'], $_POST['cboMedidaPeso'],$_POST['txtStockSeguridad'], $_POST['cboArmario'], $_POST['cboColumna'],$_POST['cboFila'], $_POST['cboKardex'], $_POST['cboColor'], $_POST['cboTalla']);
+	$ObjProducto->actualizar($_POST['txtIdProducto'], $_POST['txtCodigo'], $_POST['txtDescripcion'], $_POST['cboCategoria'], $_POST['cboMarca'], $_POST['cboUnidadBase'], $_POST['txtPeso'], $_POST['cboMedidaPeso'],$_POST['txtStockSeguridad'], $_POST['cboArmario'], $_POST['cboColumna'],$_POST['cboFila'], $_POST['cboKardex'], $_POST['cboColor'], $_POST['cboTalla'], $_POST['cboRecetaMedica']);
 	
 	if($_POST['txtPrecioCompra']!=""){
 	$registro=$ObjLU->buscar(NULL,$_POST['txtIdProducto'],$_POST['txtDescripcion']);

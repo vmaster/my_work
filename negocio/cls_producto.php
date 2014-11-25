@@ -1,9 +1,9 @@
 <?php
 class clsProducto
 {
-function insertar($idproducto, $codigo, $descripcion, $idcategoria, $idmarca, $idunidadbase, $peso, $idmedidapeso, $stockseguridad, $idarmario, $columna, $fila, $kardex, $idcolor=0, $idtalla=0)
+function insertar($idproducto, $codigo, $descripcion, $idcategoria, $idmarca, $idunidadbase, $peso, $idmedidapeso, $stockseguridad, $idarmario, $columna, $fila, $kardex, $idcolor=0, $idtalla=0, $recetamedica)
  {
-   $sql = "INSERT INTO producto(idproducto, codigo, descripcion, idcategoria, idmarca, idunidadbase, peso, idmedidapeso, stockseguridad, idarmario, columna, fila, kardex, idcolor, idtalla, estado) VALUES(NULL,UPPER('" . $codigo . "'),UPPER('" . $descripcion . "')," . $idcategoria . "," . $idmarca . "," . $idunidadbase . "," . $peso . ",'" . $idmedidapeso. "', " . $stockseguridad . ",". $idarmario . "," . $columna . "," . $fila . ",'" . $kardex . "',".$idcolor.",".$idtalla.",'N')";
+   $sql = "INSERT INTO producto(idproducto, codigo, descripcion, idcategoria, idmarca, idunidadbase, peso, idmedidapeso, stockseguridad, idarmario, columna, fila, kardex, idcolor, idtalla, estado, recetamedica) VALUES(NULL,UPPER('" . $codigo . "'),UPPER('" . $descripcion . "')," . $idcategoria . "," . $idmarca . "," . $idunidadbase . "," . $peso . ",'" . $idmedidapeso. "', " . $stockseguridad . ",". $idarmario . "," . $columna . "," . $fila . ",'" . $kardex . "',".$idcolor.",".$idtalla.",'N',".$recetamedica.")";
    
     global $cnx;
 	
@@ -17,13 +17,13 @@ function insertar($idproducto, $codigo, $descripcion, $idcategoria, $idmarca, $i
    return $cnx->query($sql);  	 	
  }
 
-function actualizar($idproducto, $codigo, $descripcion, $idcategoria, $idmarca, $idunidadbase, $peso, $idmedidapeso, $stockseguridad, $idarmario, $columna, $fila, $kardex, $idcolor=0, $idtalla=0)
+function actualizar($idproducto, $codigo, $descripcion, $idcategoria, $idmarca, $idunidadbase, $peso, $idmedidapeso, $stockseguridad, $idarmario, $columna, $fila, $kardex, $idcolor=0, $idtalla=0, $recetamedica)
  {
   
   if(isset($idunidadbase)){
-   $sql = "UPDATE producto SET codigo =UPPER('" . $codigo ."'), descripcion =UPPER('" . $descripcion ."'), idcategoria = " . $idcategoria . ", idmarca = " . $idmarca . ", idunidadbase = " . $idunidadbase . ", peso = " . $peso . ", idmedidapeso = '" . $idmedidapeso . "', stockseguridad = " . $stockseguridad . ", idarmario = " . $idarmario . ", columna=" . $columna . ", fila = '" . $fila ."', kardex='".$kardex."', idcolor=".$idcolor.", idtalla=".$idtalla.", estado = 'N'  WHERE idproducto = " . $idproducto ;
+   $sql = "UPDATE producto SET codigo =UPPER('" . $codigo ."'), descripcion =UPPER('" . $descripcion ."'), idcategoria = " . $idcategoria . ", idmarca = " . $idmarca . ", idunidadbase = " . $idunidadbase . ", peso = " . $peso . ", idmedidapeso = '" . $idmedidapeso . "', stockseguridad = " . $stockseguridad . ", idarmario = " . $idarmario . ", columna=" . $columna . ", fila = '" . $fila ."', kardex='".$kardex."', idcolor=".$idcolor.", idtalla=".$idtalla.", estado = 'N', recetamedica  =".$recetamedica." WHERE idproducto = " . $idproducto ;
    }else{
-   $sql = "UPDATE producto SET codigo =UPPER('" . $codigo ."'), descripcion =UPPER('" . $descripcion ."'), idcategoria = " . $idcategoria . ", idmarca = " . $idmarca . ", peso = " . $peso . ", idmedidapeso = '" . $idmedidapeso . "', stockseguridad = " . $stockseguridad . ", idarmario = " . $idarmario . ", columna=" . $columna . ", fila = '" . $fila ."', kardex='".$kardex."', idcolor=".$idcolor.", idtalla=".$idtalla.", estado = 'N'  WHERE idproducto = " . $idproducto ;
+   $sql = "UPDATE producto SET codigo =UPPER('" . $codigo ."'), descripcion =UPPER('" . $descripcion ."'), idcategoria = " . $idcategoria . ", idmarca = " . $idmarca . ", peso = " . $peso . ", idmedidapeso = '" . $idmedidapeso . "', stockseguridad = " . $stockseguridad . ", idarmario = " . $idarmario . ", columna=" . $columna . ", fila = '" . $fila ."', kardex='".$kardex."', idcolor=".$idcolor.", idtalla=".$idtalla.", estado = 'N', recetamedica  = ".$recetamedica." WHERE idproducto = " . $idproducto ;
    }
       
    global $cnx;
@@ -47,7 +47,7 @@ function consultar()
 
 function buscar($idproducto, $descripcion, $idcategoria, $idmarca)
  {
-   $sql = "SELECT producto.idproducto, producto.codigo, producto.descripcion, categoria.descripcion as categoria, marca.descripcion as marca, unidad.Descripcion as unidadbase, peso, idmedidapeso, Um.descripcion as medidapeso, producto.stockseguridad, armario.nombre as armario, producto.columna, producto.fila, producto.kardex, producto.estado, producto.idunidadbase, producto.idcolor, color.nombre as color, color.codigo as codigocolor, producto.idtalla, talla.nombre as talla, talla.abreviatura as tallaabreviatura FROM producto inner join marca on producto.idmarca=marca.idmarca inner join categoria on producto.idcategoria= categoria.idCategoria inner join armario on armario.IdArmario= producto.IdArmario inner join unidad on unidad.IdUnidad= producto.IdUnidadBase inner join unidad Um on Um.IdUnidad= producto.idmedidapeso and Um.Tipo='M' LEFT JOIN color ON color.idcolor=producto.idcolor LEFT JOIN talla ON talla.idtalla=producto.idtalla WHERE producto.estado='N' ";
+   $sql = "SELECT producto.idproducto, producto.codigo, producto.descripcion, producto.recetamedica, categoria.descripcion as categoria, marca.descripcion as marca, unidad.Descripcion as unidadbase, peso, idmedidapeso, Um.descripcion as medidapeso, producto.stockseguridad, armario.nombre as armario, producto.columna, producto.fila, producto.kardex, producto.estado, producto.idunidadbase, producto.idcolor, color.nombre as color, color.codigo as codigocolor, producto.idtalla, talla.nombre as talla, talla.abreviatura as tallaabreviatura FROM producto inner join marca on producto.idmarca=marca.idmarca inner join categoria on producto.idcategoria= categoria.idCategoria inner join armario on armario.IdArmario= producto.IdArmario inner join unidad on unidad.IdUnidad= producto.IdUnidadBase inner join unidad Um on Um.IdUnidad= producto.idmedidapeso and Um.Tipo='M' LEFT JOIN color ON color.idcolor=producto.idcolor LEFT JOIN talla ON talla.idtalla=producto.idtalla WHERE producto.estado='N' ";
    if(isset($idproducto)){
 	$sql = $sql . " AND producto.idproducto = " . $idproducto;}
 	if(isset($descripcion)){

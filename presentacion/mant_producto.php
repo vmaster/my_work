@@ -311,6 +311,7 @@ echo genera_cboMarca("");
 ?>
 &nbsp;<a href="#" onClick="javascript: window.open('mant_marca.php?accion=NUEVO&origen=PROD&accionprod=<?php echo $_GET['accion'];?>&idprod=<?php echo $_GET['IdProducto'];?>','_blank','width=420,height=160');" title="Nueva Marca">...</a>
 </td></tr>
+<!--
 <tr><td class="alignright">
 Color : </td><td><?php 
 if($_GET['accion']=='ACTUALIZAR')
@@ -331,6 +332,7 @@ echo genera_cboTalla("");
 ?>
 &nbsp;<a href="#" onClick="javascript: window.open('mant_talla.php?accion=NUEVO&origen=PROD&accionprod=<?php echo $_GET['accion'];?>&idprod=<?php echo $_GET['IdProducto'];?>','_blank','width=420,height=160');" title="Nueva Talla">...</a>
 </td></tr>
+-->
 <tr><td class="alignright">
 Unidad base : </td><td>
 <?php 
@@ -410,12 +412,13 @@ if($_GET['accion']=='ACTUALIZAR')
  &nbsp;<a href="#" onClick="javascript: window.open('mant_armario.php?accion=NUEVO&origen=PROD&accionprod=<?php echo $_GET['accion'];?>&idprod=<?php echo $_GET['IdProducto'];?>','_blank','width=420,height=230');" title="Nuevo Armario">...</a>
  </td></tr>
 <tr>
-<td class="alignright">Columna: <input type="hidden" name="txtColumna" id"txtColumna" value="<?php echo $dato->columna?>"></td><td>
+<td class="alignright">Columna: <input type="hidden" name="txtColumna" id="txtColumna" value="<?php echo $dato->columna?>"></td><td>
 <div id="DivcboColumna"></div></td></tr>
 <tr>
-<td class="alignright">Fila : <input type="hidden" name="txtFila" id"txtFila" value="<?php echo $dato->fila?>"></td><td>
+<td class="alignright">Fila : <input type="hidden" name="txtFila" id="txtFila" value="<?php echo $dato->fila?>"></td><td>
 <div id="DivcboFila"></div></td></tr>
 <script>llenarColumnayFila();</script>
+<!--
 <tr><td class="alignright">
 Kardex :</td><td> 
 <select name="cboKardex" id="cboKardex">
@@ -425,6 +428,19 @@ Kardex :</td><td>
   <?php }else{?>
   <option value="S">SI</option>
   <option value="N">NO</option>
+  <?php }?>
+</select>
+</td></tr>
+-->
+<tr><td class="alignright">
+Receta Medica <?php echo $dato->recetamedica;?>:</td><td> 
+<select name="cboRecetaMedica" id="cboRecetaMedica">
+<?php if($_GET['accion']=='ACTUALIZAR'){?>
+  <option value="S" <?php if($dato->recetamedica=='N'){?>selected="selected" <?php } ?>>NO</option>
+  <option value="N" <?php if($dato->recetamedica=='S'){?>selected="selected" <?php } ?>>SI</option>
+  <?php }else{?>
+  <option value="N">NO</option>
+  <option value="S">SI</option>
   <?php }?>
 </select>
 </td></tr>
