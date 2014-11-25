@@ -3,8 +3,8 @@ class clsProducto
 {
 function insertar($idproducto, $codigo, $descripcion, $idcategoria, $idmarca, $idunidadbase, $peso, $idmedidapeso, $stockseguridad, $idarmario, $columna, $fila, $kardex, $idcolor=0, $idtalla=0, $recetamedica)
  {
-   $sql = "INSERT INTO producto(idproducto, codigo, descripcion, idcategoria, idmarca, idunidadbase, peso, idmedidapeso, stockseguridad, idarmario, columna, fila, kardex, idcolor, idtalla, estado, recetamedica) VALUES(NULL,UPPER('" . $codigo . "'),UPPER('" . $descripcion . "')," . $idcategoria . "," . $idmarca . "," . $idunidadbase . "," . $peso . ",'" . $idmedidapeso. "', " . $stockseguridad . ",". $idarmario . "," . $columna . "," . $fila . ",'" . $kardex . "',".$idcolor.",".$idtalla.",'N',".$recetamedica.")";
-   
+   $sql = "INSERT INTO producto(idproducto, codigo, descripcion, idcategoria, idmarca, idunidadbase, peso, idmedidapeso, stockseguridad, idarmario, columna, fila, kardex, idcolor, idtalla, estado, recetamedica) VALUES(NULL,UPPER('" . $codigo . "'),UPPER('" . $descripcion . "')," . $idcategoria . "," . $idmarca . "," . $idunidadbase . "," . $peso . ",'" . $idmedidapeso. "', " . $stockseguridad . ",". $idarmario . "," . $columna . "," . $fila . ",'" . $kardex . "',".$idcolor.",".$idtalla.",'N','".$recetamedica."')";
+
     global $cnx;
 	
    return $cnx->query($sql) or die($sql);
@@ -21,11 +21,10 @@ function actualizar($idproducto, $codigo, $descripcion, $idcategoria, $idmarca, 
  {
   
   if(isset($idunidadbase)){
-   $sql = "UPDATE producto SET codigo =UPPER('" . $codigo ."'), descripcion =UPPER('" . $descripcion ."'), idcategoria = " . $idcategoria . ", idmarca = " . $idmarca . ", idunidadbase = " . $idunidadbase . ", peso = " . $peso . ", idmedidapeso = '" . $idmedidapeso . "', stockseguridad = " . $stockseguridad . ", idarmario = " . $idarmario . ", columna=" . $columna . ", fila = '" . $fila ."', kardex='".$kardex."', idcolor=".$idcolor.", idtalla=".$idtalla.", estado = 'N', recetamedica  =".$recetamedica." WHERE idproducto = " . $idproducto ;
+   $sql = "UPDATE producto SET codigo =UPPER('" . $codigo ."'), descripcion =UPPER('" . $descripcion ."'), idcategoria = " . $idcategoria . ", idmarca = " . $idmarca . ", idunidadbase = " . $idunidadbase . ", peso = " . $peso . ", idmedidapeso = '" . $idmedidapeso . "', stockseguridad = " . $stockseguridad . ", idarmario = " . $idarmario . ", columna=" . $columna . ", fila = '" . $fila ."', kardex='".$kardex."', idcolor=".$idcolor.", idtalla=".$idtalla.", estado = 'N', recetamedica  ='".$recetamedica."' WHERE idproducto = " . $idproducto ;
    }else{
-   $sql = "UPDATE producto SET codigo =UPPER('" . $codigo ."'), descripcion =UPPER('" . $descripcion ."'), idcategoria = " . $idcategoria . ", idmarca = " . $idmarca . ", peso = " . $peso . ", idmedidapeso = '" . $idmedidapeso . "', stockseguridad = " . $stockseguridad . ", idarmario = " . $idarmario . ", columna=" . $columna . ", fila = '" . $fila ."', kardex='".$kardex."', idcolor=".$idcolor.", idtalla=".$idtalla.", estado = 'N', recetamedica  = ".$recetamedica." WHERE idproducto = " . $idproducto ;
+   $sql = "UPDATE producto SET codigo =UPPER('" . $codigo ."'), descripcion =UPPER('" . $descripcion ."'), idcategoria = " . $idcategoria . ", idmarca = " . $idmarca . ", peso = " . $peso . ", idmedidapeso = '" . $idmedidapeso . "', stockseguridad = " . $stockseguridad . ", idarmario = " . $idarmario . ", columna=" . $columna . ", fila = '" . $fila ."', kardex='".$kardex."', idcolor=".$idcolor.", idtalla=".$idtalla.", estado = 'N', recetamedica  = '".$recetamedica."' WHERE idproducto = " . $idproducto ;
    }
-      
    global $cnx;
    return $cnx->query($sql);  	 	 	
  }

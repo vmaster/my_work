@@ -27,6 +27,7 @@ require("../negocio/cls_producto.php");
 		<th><div align='center'>ARMARIO</div></th>
 		<th><div align='center'>COLUMNA</div></th>
 		<th><div align='center'>FILA</div></th>
+		<th><div align='center'>RECETA MEDICA</div></th>
 		<!--<th><div align='center'>KARDEX</div></th>-->
 		<th colspan='4'><div align='center'>OPERACIONES</div></th>
 		</tr>";
@@ -55,6 +56,11 @@ while($dato = $rst->fetchObject()){
 	$registro.="<td align='center'>".$mon.$dato->armario."</td>";
 	$registro.="<td align='center'>".$mon.$dato->columna."</td>";
 	$registro.="<td align='center'>".$dato->fila."</td>";
+	if($dato->recetamedica=='S'){
+		$registro.="<td align='center'>SI</td>";
+	}else{
+		$registro.="<td align='center'>NO</td>";
+	}
 	/*$registro.="<td align='center'>".$dato->kardex."</td>";*/
 	$registro.="<td><a href='list_listaunidad.php?IdProducto=$dato->idproducto'>Ver Lista Unidad</a></td>";
 	/*$registro.="<td><a href='list_kardex.php?IdProducto=$dato->idproducto'>Ver Kardex</a> </td>";*/

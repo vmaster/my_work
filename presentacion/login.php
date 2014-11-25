@@ -167,7 +167,7 @@ else
 							<p><label for="contrasenia">Clave:</label></p>
 							<p class="mb10"><input name="txtClave" type="password" id="txtClave"
 									maxlength="32" /></p>
-							<!-- <tr>
+							<div style="display: none">
 	               <td class="alignright">Fecha:</td>
 	      <td><input name="txtFechaProceso" type="text" id="txtFechaProceso" value="<?php 
 	$mysql_date = date("Y-m-d"); 
@@ -182,11 +182,11 @@ else
 	cal.manageFields("btnCalendar", "txtFechaProceso", "%Y-%m-%d");
 	//"%Y-%m-%d %H:%M:%S"
 	//]]></script></td>
-	              </tr>
-	              <tr>
+	              </div>
+	              <div style="display: none">
 	                <td class="alignright">Tipo Cambio:</td>
 	                <td><input name="txtTipoCambio" type="text" id="txtTipoCambio" maxlength="10" size="10" value="<?php echo $cambio;?>" onKeyPress="if (event.keyCode < 46 || event.keyCode > 57) event.returnValue = false;" /></td>
-	              </tr>-->
+	              </div>
 							<p>
 								<input
 									type="submit" name="submit" id ="submit" value="Ingresar" class="boton"/> <br /> <?php if($_GET['error']==1) echo "Datos Necesarios";?>
