@@ -338,7 +338,7 @@ function genera_cboColumna($armario,$seleccionado)
                 <li><a href='../negocio/cont_usuario.php?accion=LOGOUT'><img src="../imagenes/door_in.png" alt="salir" width="16" height="16" longdesc="Cerrar Sesión"> Cerrar sesion </a></li>
             </ul>
 </div>
-<div id="titulo01">REGISTRO DE PEDIDO ENTRE SUCURSALES</div>
+<div id="titulo01">REGISTRO DE SOLICITUD DE PEDIDO ENTRE SUCURSALES</div>
 <form id="frmPedido" action="../negocio/cont_pedido.php?accion=NUEVO-SUCURSAL" method="POST" onSubmit='return check_form(frmPedido);'>
 <table width="100%">
 <tr>

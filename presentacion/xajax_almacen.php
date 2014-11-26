@@ -17,7 +17,7 @@ require("../negocio/cls_producto.php");
 require("../negocio/cls_persona.php");
 require("../negocio/cls_detallemovalmacen.php");
 $ObjPersona = new clsPersona();
-$EncabezadoTabla=array("C&oacute;digo","Descripci&oacute;n","Categoria","Marca","Color","Talla","Unidad","Precio Venta","Precio Compra","Stock","Armario","Columna","Fila","Peso","Medida");
+$EncabezadoTabla=array("C&oacute;digo","Descripci&oacute;n","Categoria","Marca","Unidad","Precio Venta","Precio Compra","Stock","Armario","Columna","Fila","Peso","Medida");
 $objProducto = new clsProducto();
 $objDetalleMovAlmacen = new clsDetalleMovAlmacen();
 function listado($categoria,$campo,$frase,$pag,$TotalReg,$moneda){
@@ -51,7 +51,7 @@ function listado($categoria,$campo,$frase,$pag,$TotalReg,$moneda){
     while($reg=$rs->fetch()){
 	   $cont++;
 	   $rojo="";
-	   if($reg[10]<=0){$rojo="red";}
+	   if($reg[10]<=$reg[16]){$rojo="red";}
 	   if($cont%2) $estilo="par";
 	   else $estilo="impar";
 	   $registros.= "<tr class='$estilo' style='color:$rojo'>";
@@ -62,13 +62,14 @@ function listado($categoria,$campo,$frase,$pag,$TotalReg,$moneda){
 				$registros.="<td align='right'>".$reg[$i]."</td>";
 			}elseif($i==11 or $i==15){
 				$registros.="<td align='center'>".$reg[$i]."</td>";
-			}elseif($i==5){
-				$color=split('-',$reg[$i]);
+			}elseif($i==5 or $i == 6){
+				$registros.= "";
+				/*$color=split('-',$reg[$i]);
 				if($color[1]==''){
 					$registros.="<td align='center' title=".$color[0].">".$color[0]."</td>";
 				}else{
 					$registros.="<td align='center' title=".$color[0]." bgcolor=".$color[1].">&nbsp;</td>";
-				}
+				}*/
 			}else{
 				$registros.= "<td>".$reg[$i]."</td>";
 			}

@@ -318,7 +318,7 @@ cal.manageFields("btnCalendar", "txtFechaRegistro", "%Y-%m-%d");
 </fieldset></div></td>
 </tr>
 <tr><td colspan="2">
-<fieldset><legend><strong>Búsqueda de produsctos:</strong></legend>
+<fieldset><legend><strong>Búsqueda de productos:</strong></legend>
 <div id="divbusqueda" class="textoazul">
 <input type="hidden" name="pag" id="pag" value="1">
 <input type="hidden" name="TotalReg" id="TotalReg">
