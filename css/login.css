@@ -17,12 +17,9 @@ footer{
 }
 
 #envoltura{
-	position:absolute;
-	left:50%;
-	top:50%;
-	margin-left:-165px;
-	margin-top:-150px;
-	width:330px
+	width: 330px;
+	margin: 0 auto;
+	padding-top: 80px;
 }
 
 #mensaje{

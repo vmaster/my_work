@@ -118,10 +118,10 @@ body {
 -->
 </style>
 </head>
-<header style="background-color: orange;">
- <img src="../imagenes/logo.png" width="200px" />
-</header>
 <body>
+<div style="background-color: rgb(255, 149, 0)">
+ <img src="../imagenes/logo.png" width="200px" />
+</div>
 <?php  
 require("../datos/cado.php");
 function genera_cboSucursal($seleccionado)
@@ -189,7 +189,7 @@ else
 	              </div>
 							<p>
 								<input
-									type="submit" name="submit" id ="submit" value="Ingresar" class="boton"/> <br /> <?php if($_GET['error']==1) echo "Datos Necesarios";?>
+									type="submit" name="submit" id ="submit" value="Ingresar" class="boton"/> <br /> <?php if(isset($_GET['error']) && $_GET['error']==1) echo "Datos Necesarios";?>
 								</p>
 				</form>
 			</div>
@@ -200,14 +200,14 @@ else
 			<a href="http://gruposistemas.com" title="¿Necesitas un Sitio Web?">GrupoSistemas</a>
 		</div>
 	</div>
-</body>
-<footer>
+	<div>
 	<p class="MsoNormal" align="center" style="text-align:center">  
-<span class="Estilo1" style="font-size: 8pt; font-family: Calibri" lang="EN-US">
-  </span>
-<div align="center" class="Estilo1" id='DivEquipo'>
-    <span style="font-size: 8pt; font-family: Calibri" lang="EN-US">Chiclayo - Per&uacute; - 2014 &copy; Ing. Geynen Montenegro C. & Hobra Systems SA<br>Totos los derechos reservados</span>
-  </div>
-</p>
-</footer>
+		<span class="Estilo1" style="font-size: 8pt; font-family: Calibri" lang="EN-US"></span>
+		<div align="center" class="Estilo1" id='DivEquipo'>
+			<span style="font-size: 8pt; font-family: Calibri" lang="EN-US">Chiclayo - Per&uacute; - 2014 &copy; Hobra Systems SA<br>Totos los derechos reservados</span>
+		</div>
+	</p>
+	</div>
+</body>
+
 </html>
