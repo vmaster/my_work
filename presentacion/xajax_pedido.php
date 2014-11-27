@@ -41,7 +41,7 @@ function listado($categoria,$campo,$frase,$pag,$TotalReg,$moneda){
     while($reg=$rs->fetch()){
 	   $cont++;
 	   $rojo="";
-	   if($reg[9]<=0){$rojo="red";}
+	   if($reg[9]<=$reg[13]){$rojo="red";}
 	   if($cont%2) $estilo="par";
 	   else $estilo="impar";
 	   $registros.= "<tr class='$estilo' style='color:$rojo'>";
@@ -49,16 +49,17 @@ function listado($categoria,$campo,$frase,$pag,$TotalReg,$moneda){
 	   		if($i==0){
 				$RegistroEdicion="<td><a href='#linkAgregar' onClick='seleccionar(".$reg[$i].",&quot;".$moneda."&quot;)'>Seleccionar</a></td>";
 			}elseif($i==8 or $i==9){
-				$registros.="<td align='right'>".$reg[$i]."</td>";
-			}elseif($i==6 or $i==11 or $i==12){
+				$registros.="<td align='right'>".$reg[$i];"</td>";
+			}elseif($i==11 or $i==12){
 				$registros.="<td align='center'>".$reg[$i]."</td>";
-			}elseif($i==5){
-				$color=split('-',$reg[$i]);
+			}elseif($i==5 || $i==6 || $i==13){
+				/*$color=split('-',$reg[$i]);
 				if($color[1]==''){
 					$registros.="<td align='center' title=".$color[0].">".$color[0]."</td>";
 				}else{
 					$registros.="<td align='center' title=".$color[0]." bgcolor=".$color[1].">&nbsp;</td>";
-				}
+				}*/
+				$registros.="";
 			}else{
 				$registros.= "<td>".$reg[$i]."</td>";
 			}
@@ -178,7 +179,7 @@ function listadoProductoPedidoSucursal($categoria,$campo,$frase,$pag,$TotalReg,$
 	   for($i=0;$i<$CantCampos;$i++){
 	   		if($i==0){
 				$RegistroEdicion="<td><a href='#linkAgregar' onClick='seleccionar(".$reg[$i].",&quot;".$moneda."&quot;,".$idsucursal.")'>Seleccionar</a></td>";
-			}elseif($i==5 or $i==6){
+			}elseif($i==5 or $i==6 or $i==13){
 				$registros.="";
 			}elseif($i==6 or $i==7){
 				$registros.="<td align='right'>".$reg[$i]."</td>";

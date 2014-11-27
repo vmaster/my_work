@@ -62,7 +62,7 @@ function listado($categoria,$campo,$frase,$pag,$TotalReg,$moneda){
 				$registros.="<td align='right'>".$reg[$i]."</td>";
 			}elseif($i==11 or $i==15){
 				$registros.="<td align='center'>".$reg[$i]."</td>";
-			}elseif($i==5 or $i == 6){
+			}elseif($i==5 or $i == 6 or $i == 16){
 				$registros.= "";
 				/*$color=split('-',$reg[$i]);
 				if($color[1]==''){
@@ -453,9 +453,9 @@ function generaralmacen($numero,$idtipodoc,$fechainicio,$fechafin,$estado){
       <th><div align='center'>PERSONA</div></th>
       <th><div align='center'>RESPONSABLE</div></th>
       <th><div align='center'>TOTAL</div></th>
-      <th><div align='center'>MONEDA</div></th>
+      <!-- <th><div align='center'>MONEDA</div></th> -->
       <th><div align='center'>COMENTARIO</div></th>
-      <th><div align='center'>ESTADO</div></th>
+      <!-- <th><div align='center'>ESTADO</div></th> -->
       <th colspan='3'><div align='center'>OPERACIONES</div></th>
     </tr>";
 	require("../datos/cado.php");
@@ -479,13 +479,13 @@ function generaralmacen($numero,$idtipodoc,$fechainicio,$fechafin,$estado){
 	$registro.="<td align='center'>".$dato->persona.' '.$dato->apersona."</td>";
 	$registro.="<td align='center'>".$dato->responsable.' '.$dato->aresponsable."</td>";
 	$registro.="<td align='center'>".$dato->total."</td>";
-	$registro.="<td align='center'>".$dato->moneda."</td>";
+	//$registro.="<td align='center'>".$dato->moneda."</td>";
 		if($dato->comentario==""){
 		$registro.="<td align='center'>".'-'."</td>";
 		}else{
 		$registro.="<td align='center'>".$dato->comentario."</td>";
 		}
-	$registro.="<td align='center'>".$estado."</td>";
+	//$registro.="<td align='center'>".$estado."</td>";
 	$registro.="<td width='54' align='center'><a href='list_detallemovalmacen.php?IdMov=".$dato->idmov."&IdTipoDoc=".$dato->idtipodoc."'>Ver Detalles</a></td>";
 
 	if($estado!="Anulado"){
@@ -513,9 +513,9 @@ function generaralmaceninicio(){
       <th><div align='center'>PERSONA</div></th>
       <th><div align='center'>RESPONSABLE</div></th>
       <th><div align='center'>TOTAL</div></th>
-      <th><div align='center'>MONEDA</div></th>
+      <!-- <th><div align='center'>MONEDA</div></th> -->
       <th><div align='center'>COMENTARIO</div></th>
-      <th><div align='center'>ESTADO</div></th>
+      <!-- <th><div align='center'>ESTADO</div></th> -->
       <th colspan='3'><div align='center'>OPERACIONES</div></th>
     </tr>";
 	require("../datos/cado.php");
@@ -544,13 +544,13 @@ function generaralmaceninicio(){
 	$registro.="<td align='center'>".$dato->persona.' '.$dato->apersona."</td>";
 	$registro.="<td align='center'>".$dato->responsable.' '.$dato->aresponsable."</td>";
 	$registro.="<td align='center'>".$dato->total."</td>";
-	$registro.="<td align='center'>".$dato->moneda."</td>";
+	//$registro.="<td align='center'>".$dato->moneda."</td>";
 		if($dato->comentario==""){
 		$registro.="<td align='center'>".'-'."</td>";
 		}else{
 		$registro.="<td align='center'>".$dato->comentario."</td>";
 		}
-	$registro.="<td align='center'>".$estado."</td>";
+	//$registro.="<td align='center'>".$estado."</td>";
 	$registro.="<td width='54' align='center'><a href='list_detallemovalmacen.php?IdMov=".$dato->idmov."&IdTipoDoc=".$dato->idtipodoc."'>Ver Detalles</a></td>";
 
 	if($estado!="Anulado"){
