@@ -11,7 +11,7 @@ function insertar($id,$us, $pw, $tipousuario)
 	
 	if($num_row==0){
 	
-	$sql = "INSERT INTO usuario(idusuario,us,pw,idtipousuario,estado) VALUES('".$id."','". $us ."','". $pw ."','". $tipousuario ."','N')";
+	$sql = "INSERT INTO usuario(idusuario,us,pw,idtipousuario,estado) VALUES('".$id."','". $us ."',MD5(". $pw ."),'". $tipousuario ."','N')";
    global $cnx;
    return $cnx->query($sql);  	
 
@@ -20,7 +20,7 @@ function insertar($id,$us, $pw, $tipousuario)
 	$dato=$rst->fetch();
 		if($dato[0]=='A'){
 		
-		$sql = "UPDATE usuario SET  us='". $us ."', pw ='". $pw ."', idtipousuario='". $tipousuario ."', estado='N' WHERE idusuario = " . $id;
+		$sql = "UPDATE usuario SET  us='". $us ."', pw =MD5(". $pw ."), idtipousuario='". $tipousuario ."', estado='N' WHERE idusuario = " . $id;
 		global $cnx;
 		return $cnx->query($sql);  
 		}
@@ -31,7 +31,7 @@ function insertar($id,$us, $pw, $tipousuario)
 function actualizar($id, $us, $pw, $tipousuario)
  {
    
-  $sql = "UPDATE usuario SET  us='". $us ."', pw ='". $pw ."', idtipousuario='". $tipousuario ."', estado='N' WHERE idusuario = " . $id;
+  $sql = "UPDATE usuario SET  us='". $us ."', pw =MD5(". $pw ."), idtipousuario='". $tipousuario ."', estado='N' WHERE idusuario = " . $id;
    global $cnx;
    return $cnx->query($sql);  	 	 	
  }
@@ -88,7 +88,7 @@ function logeo($Usuario, $Clave)
  {
    $sql = "SELECT IdUsuario,IdTipoUsuario FROM usuario WHERE estado='N'";
    if(isset($Usuario) and isset($Clave))
-	$sql = $sql . " AND US = '$Usuario' AND PW = '$Clave'";
+	$sql = $sql . " AND US = '$Usuario' AND PW = MD5('$Clave')";
 
    global $cnx;
    return $cnx->query($sql);   	
