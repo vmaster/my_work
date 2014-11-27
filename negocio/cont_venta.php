@@ -37,7 +37,7 @@ session_start();
 		
 		$ObjMov->insertar(NULL, 2,$_POST['txtIdSucursal'], 3, $numero, $_POST['cboTipoDocumento'], $_POST['cboTipoVenta'], $_POST['txtFechaRegistro'],$_POST['cboMoneda'], $_POST['txtSubtotal'], $_POST['txtIgv'],$_POST['txtTotal'], $_POST['txtIdUsuario'], $_POST['txtIdPersona'],$_POST['txtIdResponsable'],$_POST['txtIdMovimientoRef'], $_POST['txtIdSucursalRef'], $_POST['txtComentario'], 'N');
 		
-	$rs = $ObjMov->obtenerLastIdVenta($numero,2,$_POST['cboTipoDocumento'],$_POST['txtIdSucursal']);
+		$rs = $ObjMov->obtenerLastIdVenta($numero,2,$_POST['cboTipoDocumento'],$_POST['txtIdSucursal']);
 		$dato = $rs->fetchObject();
 		$idmov = $dato->IdMovimiento;
 		
@@ -91,6 +91,17 @@ session_start();
 /*     if($_POST['txtGuia']==0){
    	$stockprod->insertar($_POST['txtIdSucursal'],$v["idproducto"],$datop->idunidad,-$v['cantidad'],$idmov,$_POST['cboMoneda'],$v["precioventa"],$_POST['txtFechaRegistro'],$_POST['txtIdUsuario']);}
 */	}
+   	
+   		//Despachar
+   		//$stockprod = new clsStockProducto();
+   	
+   		$detalle=$ObjMov->consultardetalleventa($idmov);
+   		while($dato = $detalle->fetchObject()){
+   			$stockprod->insertar($_SESSION['IdSucursal'],$dato->idproducto,$dato->idunidad,-$dato->cantidad,$idmov,$dato->moneda,$dato->precioventa,date("Y-m-d H:i:s"),$_SESSION['IdUsuario']);
+   		}
+   		$ObjBitacora->insertar(NULL,$idmov,$_SESSION['IdUsuario'],date("Y-m-d H:i:s"),'Registro de despacho sin Guia de Remision','N');
+   		//End Despachar
+   	
 		$cnx->commit(); 
 		
 		if($_POST['cboTipoDocumento']==1){
