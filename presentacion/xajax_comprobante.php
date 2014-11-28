@@ -37,9 +37,9 @@ $pers=$objPersona->buscar($detalle2->idcliente,NULL, NULL);
 $detallePersona = $pers->fetchObject();
 
 $reg.="<br><table width='660' style='margin:21;' style='font-size:13px;'>";
-	$registros.="<p style='margin:48;'></p><table width='500' style='margin:0;' style='font-size:13px;'>";
+	$registros.="<table width='512' style='margin:0;' style='font-size:13px;'>";
 	
-	$registros.="<tr>
+	/*$registros.="<tr>
 		<th width='49' align='center' bgcolor='#CCCCCC'><strong>Cant.</strong></th>
         <th width='312' align='center' bgcolor='#CCCCCC'><strong>DESCRIPCION</strong></th>
 		<th width='55' align='center' bgcolor='#CCCCCC'><strong>P. Unit.</strong></th>
@@ -52,7 +52,7 @@ $reg.="<br><table width='660' style='margin:21;' style='font-size:13px;'>";
         <th width='340' align='center'><strong></strong></th>
 		<th width='100' align='center'><strong></strong></th>
 		<th width='100' align='center'><strong></strong></th>
-    </tr>";
+    </tr>";*/
 	
 	$i=0;
 $detalle=$objMovimiento->consultardetalleventa($idventa);
@@ -65,31 +65,31 @@ $detalle=$objMovimiento->consultardetalleventa($idventa);
 		$color=" ";
 	$registros.="<tr>
     <td align='center' $color>".$dato->cantidad."</td>";
-	$descripcion=$dato->producto.' /'.$dato->categoria.'_'.$dato->marca.'_'.$dato->peso.$dato->unidadpeso."";
+	$descripcion=$dato->producto.' /'.$dato->marca.'-'.$dato->peso.$dato->unidadpeso."";
 	if(strlen($descripcion)>=36){
 		$descripcion=substr($descripcion,0,35);
 	}
     $registros.="<td align='left' $color>".$descripcion." </td>
-    <td align='right' $color>".$dato->precioventa."&nbsp;&nbsp; </td>
-    <td align='right' $color>".number_format($dato->subtotal,2)."&nbsp;&nbsp;&nbsp; </td>
+    <td align='right' >".$dato->precioventa."&nbsp;&nbsp; </td>
+    <td align='right' >".number_format($dato->subtotal,2)."&nbsp;&nbsp;&nbsp; </td>
   </tr>";
   if($i<11)
     $reg.="<tr><td>&nbsp;</td><td></td><td></td><td></td><td></td></tr>";
   $i=$i+1;
   }
   
-  while($i<14){
+  while($i<8){
   if(($i+1)%2==0)
 		$color=" bgcolor='#CCCCCC'";
 	else
 		$color=" ";
   $registros.="<tr>
-    <td align='center' $color></td>
-    <td align='center' $color></td>
-    <td align='right' $color>&nbsp;&nbsp; </td>
-    <td align='center' $color> - </td>
+    <td align='center' ></td>
+    <td align='center' ></td>
+    <td align='right' >&nbsp;&nbsp; </td>
+    <td align='center' > - </td>
   </tr>";
-  if($i<11)
+  if($i<10)
     $reg.="<tr><td>&nbsp;</td><td></td><td></td><td></td><td></td></tr>";
 	
   $i=$i+1;

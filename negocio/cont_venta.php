@@ -105,7 +105,7 @@ session_start();
 		$cnx->commit(); 
 		
 		if($_POST['cboTipoDocumento']==1){
-			header('Location: ../presentacion/frm_comprobanteB.php?idventa='.$idmov.'&origen='.$_GET['origen']);
+			header('Location: ../presentacion/frm_comprobanteBA.php?idventa='.$idmov.'&origen='.$_GET['origen']);
 		}
 		if($_POST['cboTipoDocumento']==2){
 			header('Location: ../presentacion/frm_comprobanteF.php?idventa='.$idmov.'&T='.$_POST['txtTotal'].'&M='.$_POST['cboMoneda'].'&origen='.$_GET['origen']);

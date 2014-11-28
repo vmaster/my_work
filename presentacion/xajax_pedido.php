@@ -677,13 +677,13 @@ function generarventas($numero,$idtipodoc,$fechainicio,$fechafin,$formapago, $co
 	$registro.="<td>   -   </td>";
 	}
 */	/*if($dato->idtipodocumento==1){
-	$registro.="<td><a href='frm_comprobanteB.php?idventa=".$dato->idmovimiento."'>Ver Comprobante</a></td>";
+	$registro.="<td><a href='frm_comprobanteBA.php?idventa=".$dato->idmovimiento."'>Ver Comprobante</a></td>";
 	}
 	if($dato->idtipodocumento==2){
 	$registro.="<td><a href='frm_comprobanteF.php?idventa=".$dato->idmovimiento."&T=".$dato->total."&M=".$dato->moneda."'>Ver Comprobante</a></td>";
 	}
 	if($dato->idtipodocumento==12){
-	$registro.="<td><a href='frm_comprobanteB.php?idventa=".$dato->idmovimiento."'>Ver Comprobante</a></td>";
+	$registro.="<td><a href='frm_comprobanteBA.php?idventa=".$dato->idmovimiento."'>Ver Comprobante</a></td>";
 	}*/
 	
 /*	if($conguia=='1'){
@@ -781,13 +781,13 @@ function generarpedidoventas($numero,$idtipodoc,$fechainicio,$fechafin,$formapag
 	$registro.="<td>   -   </td>";
 	}
 */	/*if($dato->idtipodocumento==1){
-	$registro.="<td><a href='frm_comprobanteB.php?idventa=".$dato->idmovimiento."'>Ver Comprobante</a></td>";
+	$registro.="<td><a href='frm_comprobanteBA.php?idventa=".$dato->idmovimiento."'>Ver Comprobante</a></td>";
 	}
 	if($dato->idtipodocumento==2){
 	$registro.="<td><a href='frm_comprobanteF.php?idventa=".$dato->idmovimiento."&T=".$dato->total."&M=".$dato->moneda."'>Ver Comprobante</a></td>";
 	}
 	if($dato->idtipodocumento==12){
-	$registro.="<td><a href='frm_comprobanteB.php?idventa=".$dato->idmovimiento."'>Ver Comprobante</a></td>";
+	$registro.="<td><a href='frm_comprobanteBA.php?idventa=".$dato->idmovimiento."'>Ver Comprobante</a></td>";
 	}*/
 	
 	if($dato->numguia!=2){

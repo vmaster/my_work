@@ -143,11 +143,11 @@ window.open('frm_cuotasventas.php?accion=VER&origen=DOC&idventa='+idventa,'_blan
 <br>
 <?php
 if($detalle2->idtipodocumento==1){
-$h="frm_comprobanteB.php?idventa=".$_GET['IdVenta']."";
+$h="frm_comprobanteBA.php?idventa=".$_GET['IdVenta']."";
 }else{
 $h="frm_comprobanteF.php?idventa=".$_GET['IdVenta']."&T=".$detalle2->total."&M=".$detalle2->moneda."";
 }
 ?>
-  <label><a href="<?php echo $h;?>&REF=detalle">IR A COMRPOBANTE DE PAGO</a></label>
+  <label><a href="<?php echo $h;?>&REF=detalle">IR A COMPROBANTE DE PAGO</a></label>
 </body>
 
