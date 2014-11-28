@@ -8,7 +8,7 @@ require("../datos/cado.php");
 require("../negocio/cls_producto.php");
 require("../negocio/cls_persona.php");
 $ObjPersona = new clsPersona();
-$EncabezadoTabla=array("C&oacute;digo","Descripci&oacute;n","Categoria","Marca","Color","Talla","Unidad","Precio Venta","Stock","Armario","Columna","Fila");
+$EncabezadoTabla=array("C&oacute;digo","Descripci&oacute;n","Categoria","Marca","Unidad","Precio Venta","Stock","Armario","Columna","Fila");
 $objProducto = new clsProducto();
 function listado($categoria,$campo,$frase,$pag,$TotalReg,$moneda){
 	Global $objProducto;
@@ -41,7 +41,7 @@ function listado($categoria,$campo,$frase,$pag,$TotalReg,$moneda){
     while($reg=$rs->fetch()){
 	   $cont++;
 	   $rojo="";
-	   if($reg[9]<=0){$rojo="red";}
+	   if($reg[9]<=$reg[13]){$rojo="red";}
 	   if($cont%2) $estilo="par";
 	   else $estilo="impar";
 	   $registros.= "<tr class='$estilo' style='color:$rojo'>";
@@ -50,15 +50,16 @@ function listado($categoria,$campo,$frase,$pag,$TotalReg,$moneda){
 				$RegistroEdicion="<td><a href='#agregar' onClick='seleccionar(".$reg[$i].",&quot;".$moneda."&quot;)'>Seleccionar</a></td>";
 			}elseif($i==8 or $i==9){
 				$registros.="<td align='right'>".$reg[$i]."</td>";
-			}elseif($i==6 or $i==11 or $i==12){
+			}elseif($i==11 or $i==12){
 				$registros.="<td align='center'>".$reg[$i]."</td>";
-			}elseif($i==5){
-				$color=split('-',$reg[$i]);
+			}elseif($i==5 or $i==6 or $i == 13){
+				$registros .= "";
+				/*$color=split('-',$reg[$i]);
 				if($color[1]==''){
 					$registros.="<td align='center' title=".$color[0].">".$color[0]."</td>";
 				}else{
 					$registros.="<td align='center' title=".$color[0]." bgcolor=".$color[1].">&nbsp;</td>";
-				}
+				}*/
 			}else{
 				$registros.= "<td>".$reg[$i]."</td>";
 			}
