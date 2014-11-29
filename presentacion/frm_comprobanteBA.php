@@ -26,16 +26,16 @@ function generarFactura(id){
 </script>
 </head>
 <body  style="font:Arial, Helvetica, sans-serif;" onLoad="generarBoleta(<?php echo $_GET['idventa'];?>);">
-<div style="background: url(../imagenes/boleta.jpg) no-repeat; height: 430px; font-size: 13px; margin-top: 40px; margin-left: 20px;">
-	<div id='boleta' style="padding-top: 70px; padding-left: 70px;"> 
-		<div id="fecha" style="font-size:13px; position: relative; top: 30px; left: 44px; width: 300px;">
+<div style="background: url(../imagenes/boleta.jpg) no-repeat; height: 430px; font-size: 13px; margin-top: 40px; margin-left: 20px; width: 600px;">
+	<div id='boleta' style="padding-top: 72px; padding-left: 90px;"> 
+		<div id="fecha" style="font-size:12px; position: relative; top: 28px; left: 20px; width: 300px;">
 			<span id="diaFecha"></span><span>/</span>
 			<span id="mesFecha"></span><span>/</span>
 			<span id="anioFecha"></span>
 		</div>
-		<div id="divNombreCliente" style="font-size:13px; position: relative; top: 30px; left: 48px; width: 300px;"></div>
-		<div id='DivDetalleVenta' style="font-size:13px; position: relative; top: 60px; left: 0px;"></div>
-		<div id="DivTotal" style='font-size:13px;position: relative; top: 70px; left: 460px; float:left'></div>
+		<div id="divNombreCliente" style="font-size:12px; position: relative; top: 28px; left: 24px; width: 300px;"></div>
+		<div id='DivDetalleVenta' style="font-size:12px; position: relative; top: 58px; left: -20px;"></div>
+		<div id="DivTotal" style='font-size:12px; position: relative; top: 68px; left: 440px; float:left'></div>
 	</div>
 </div>
 <div align="center"><a href="javascript:imprimir('boleta')">IMPRIMIR BOLETA</a></div>

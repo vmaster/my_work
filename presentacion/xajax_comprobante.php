@@ -65,7 +65,7 @@ $detalle=$objMovimiento->consultardetalleventa($idventa);
 		$color=" ";
 	$registros.="<tr>
     <td align='center' $color>".$dato->cantidad."</td>";
-	$descripcion=$dato->producto.' /'.$dato->marca.'-'.$dato->peso.$dato->unidadpeso."";
+	$descripcion=$dato->producto.'-'.$dato->peso.$dato->unidadpeso."";
 	if(strlen($descripcion)>=36){
 		$descripcion=substr($descripcion,0,35);
 	}
