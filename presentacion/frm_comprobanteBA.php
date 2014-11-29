@@ -26,17 +26,18 @@ function generarFactura(id){
 </script>
 </head>
 <body  style="font:Arial, Helvetica, sans-serif;" onLoad="generarBoleta(<?php echo $_GET['idventa'];?>);">
-<div id='boleta' style="background: url(../imagenes/boleta.jpg) no-repeat; height: 470px; font-size: 13px;"> 
-	<div id="fecha" style="font-size:13px;position: absolute;top: 114px;left: 118px;">
-		<div id="diaFecha" style="float: left;"></div><div style="float: left;">/</div>
-		<div id="mesFecha" style="float: left;"></div><div style="float: left;">/</div>
-		<div id="anioFecha" style="float: left;"></div>
+<div style="background: url(../imagenes/boleta.jpg) no-repeat; height: 430px; font-size: 13px; margin-top: 40px; margin-left: 20px;">
+	<div id='boleta' style="padding-top: 70px; padding-left: 70px;float: left;"> 
+		<div id="fecha" style="font-size:13px;position: relative;top: 30px;left: 44px;">
+			<span id="diaFecha"></span><span>/</span>
+			<span id="mesFecha"></span><span>/</span>
+			<span id="anioFecha"></span>
+		</div>
+		<div id="divNombreCliente" style="font-size:13px;position: relative;top: 30px;left: 48px;"></div>
+		<div id='DivDetalleVenta' style="font-size:13px;position: relative;top: 60px;left: 0px;"></div>
+		<div id="DivTotal" style='font-size:13px;position: relative;top: 70px;left: 460px;float:left'></div>
 	</div>
-	<div id="divNombreCliente" style="font-size:13px;position: absolute;top: 130px;left: 122px;"></div>
-	<div id='DivDetalleVenta' style="font-size:13px;position: absolute;top: 170px;left: 87px;"></div>
-	<div id="DivTotal" style='font-size:13px;position: absolute;top: 340px;left: 540px;'></div>
 </div>
-
 <div align="center"><a href="javascript:imprimir('boleta')">IMPRIMIR BOLETA</a></div>
 <div align="center"><a href="<?php if(isset($_GET['REF'])){echo "frm_detalleventa.php?IdVenta=".$_GET['idventa'];}else{ if($_GET['origen']=='VENTA') echo "list_ventas.php"; else echo "list_pedidoventa.php";}?>"> REGRESAR </a> </div>
 </body>
