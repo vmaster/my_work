@@ -286,15 +286,15 @@ echo $dato->idproducto;?>' readonly="" style="text-transform:uppercase"><!--</td
 </tr>-->
 <tr>
 <td class="alignright">
-Código:</td><td> <?php if($_GET['accion']=='NUEVO') {echo 'Se generara autom&aacute;ticamente';} else {?><input type='text' name = 'txtCodigo' value = '<?php if($_GET['accion']=='ACTUALIZAR')
+C&oacute;digo:</td><td> <?php if($_GET['accion']=='NUEVO') {echo 'Se generara autom&aacute;ticamente';} else {?><input type='text' name = 'txtCodigo' value = '<?php if($_GET['accion']=='ACTUALIZAR')
 echo $dato->codigo;?>' style="text-transform:uppercase"><?php }?></td>
 </tr>
 <tr>
 <td class="alignright">
-Descripción :</td><td> <input type='text' name = 'txtDescripcion' value = '<?php if($_GET['accion']=='ACTUALIZAR')
-echo $dato->descripcion;?>' style="text-transform:uppercase"></td></tr>
+Descripci&oacute;n :</td><td> <input type='text' name = 'txtDescripcion' value = '<?php if($_GET['accion']=='ACTUALIZAR')
+echo utf8_encode($dato->descripcion);?>' style="text-transform:uppercase"></td></tr>
 <tr><td class="alignright">
-Categoría :</td><td> <?php 
+Categor&iacute;a :</td><td> <?php 
 if($_GET['accion']=='ACTUALIZAR')
 echo genera_cboCategoria($dato->categoria);
 else

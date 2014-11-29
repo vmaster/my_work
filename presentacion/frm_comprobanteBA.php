@@ -35,7 +35,7 @@ function generarFactura(id){
 		</div>
 		<div id="divNombreCliente" style="font-size:12px; position: relative; top: 28px; left: 24px; width: 300px;"></div>
 		<div id='DivDetalleVenta' style="font-size:12px; position: relative; top: 58px; left: -20px;"></div>
-		<div id="DivTotal" style='font-size:12px; position: relative; top: 68px; left: 440px; float:left'></div>
+		<div id="DivTotal" style='font-size:12px; position: relative; top: 86px; left: 440px; float:left'></div>
 	</div>
 </div>
 <div align="center"><a href="javascript:imprimir('boleta')">IMPRIMIR BOLETA</a></div>

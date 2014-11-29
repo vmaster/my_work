@@ -64,7 +64,7 @@ $detalle=$objMovimiento->consultardetalleventa($idventa);
 	else
 		$color=" ";
 	$registros.="<tr>
-    <td align='center' $color>".$dato->cantidad."</td>";
+    <td align='right' $color>".$dato->cantidad."&nbsp;&nbsp;</td>";
 	$descripcion=$dato->producto.'-'.$dato->peso.$dato->unidadpeso."";
 	if(strlen($descripcion)>=36){
 		$descripcion=substr($descripcion,0,35);
@@ -87,7 +87,7 @@ $detalle=$objMovimiento->consultardetalleventa($idventa);
     <td align='center' ></td>
     <td align='center' ></td>
     <td align='right' >&nbsp;&nbsp; </td>
-    <td align='center' > - </td>
+    <td align='center' style='padding-left:25px;'> - </td>
   </tr>";
   if($i<10)
     $reg.="<tr><td>&nbsp;</td><td></td><td></td><td></td><td></td></tr>";
