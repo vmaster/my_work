@@ -389,188 +389,63 @@ if($moneda=='0'){
 
 		$Ob = new clsMovCaja();		
 		$cons= $Ob-> buscarmovimientosrpt(
-$idtipodocumento,$idrolpersona,$idconceptopago,'S','CAJA','N',$fech,$_SESSION['IdSucursal']);
+		$idtipodocumento,$idrolpersona,$idconceptopago,'S','VENTA','N',$fech,$_SESSION['IdSucursal']);
 		$num=$cons->rowCount();
 
-if($num==0){
+	if($num==0){
 		
 		$tabla="<b style = 'display:none'>MONEDA: SOLES</b><p>No existen Reportes..!</p>";
 		
-}else{
-$tabla="<fieldset>
+	}else{
+		$tabla="<fieldset>
                 <legend><strong>REPORTE:</strong></legend>
 				<b style = 'display:none'>MONEDA: SOLES</b>
 				<table width='1300' class=registros>
                 <tr>
                   <th width='150' align='center'>Nro DOC.</th>
-                  <th width='120' align='center'>INGRESO</th>
+                  <th width='120' align='center'>TOTAL P.VENTA</th>
                   <th width='120' align='center' style = 'display:none'>EGRESO</th>
-                  <th width='120' align='center'>SALDO</th>
+				  <th width='120' align='center'>TOTAL P.COMPRA</th>
                   <th width='320' align='center'>CONCEPTO PAGO</th>
 				  <th width='320' align='center'>PERSONA</th>
                   <th width='200' align='center'>COMENTARIO</th>
                 </tr>";
-        $suma=0;        
-		while($registro=$cons->fetch()){		
+        $suma=0;
+        $suma_precio_compra=0;         
+		while($registro=$cons->fetch()){
 		$cont++;
-	   if($cont%2) $estilo="par"; else $estilo="impar";
+	   	if($cont%2) $estilo="par"; else $estilo="impar";
 		$tabla.="<tr class='$estilo'>";			
         $tabla.="<td align='center'>".$registro[0]."</td>";
-		
-		if($registro[1]=='INGRESO'){
 		
 		$suma=$suma+$registro[3];
 		$tabla.="<td align='center'>".number_format($registro[3],2)."</td>";
         $tabla.="<td align='center' style = 'display:none'>0.00</td>";
-		$tabla.="<td align='center'>".number_format($suma,2)."</td>";
-		
-		}/*else if($registro[1]=='EGRESO'){
-		
-		$suma=$suma-$registro[3];
-		$tabla.="<td align='center'>0.00</td>";
-		$tabla.="<td align='center'>".number_format($registro[3],2)."</td>";
-		$tabla.="<td align='center'>".number_format($suma,2)."</td>";
-		}*/
-		
-        
+		$tabla.="<td align='center'>";
+		$ObjMovCaja = new clsMovCaja();
+		$cons_precio_compra = $ObjMovCaja->consultarDetPrecCompPorMovimiento($registro[8]);
+		$precio_compra = $cons_precio_compra->fetch();
+		$tabla.=$precio_compra[0]."</td>";
 		$tabla.="<td align='center'>".$registro[6]."</td>";
         $tabla.="<td align='center'>".$registro[4]." ".$registro[5]."</td>";
         $tabla.="<td align='center'>".$registro[7]."</td>";
 		$tabla.="</tr>";
+		$suma_precio_compra= $suma_precio_compra + $precio_compra[0];  
 		}
 				
          $tabla.=" </table>";
 		 $tabla.="<p></p>";
-		 $tabla.="<p align='center'>SALDO S/. ".number_format($suma,2)."</p>";
-}
+		 $tabla.="<p align='center'>SUMA PRECIO DE VENTA S/. ".number_format($suma,2)."</p>";
+		 $tabla.="<p align='center'>SUMA PRECIO DE COMPRA S/.". number_format($suma_precio_compra,2)."</p>";
+		 $tabla.="<p align='center'>UTILIDAD S/.". (number_format($suma,2) - number_format($suma_precio_compra,2))."</p>";
+	}
 
-$Ob2 = new clsMovCaja();		
-		$cons2= $Ob2-> buscarmovimientosrpt(
-$idtipodocumento,$idrolpersona,$idconceptopago,'D','CAJA','N',$fech,$_SESSION['IdSucursal']);
-		$num2=$cons2->rowCount();
 
-/*if($num2==0){
-		
-		$tabla.="<b>MONEDA: DOLARES</b><p>No existen Reportes...!</p>";
-		$tabla.="<input name='txtImprimir' type='button' id='IMPRIMIR' value='IMPRIMIR' onClick=javascript:window.open('pdf_movcajaRptDia.php?idtipodoc=$idtipodocumento&idrolpersona=$idrolpersona&fech=$fech&idconceptopago=$idconceptopago&moneda=$moneda','_blank')>";
-		
-}else{
-$tabla.="<b>MONEDA: DOLARES</b>
-<table width='1350' align='center' class=registros>
-                <tr>
-                  <th width='150' align='center'>Nro DOC.</th>
-                  <th width='120' align='center'>INGRESO</th>
-                  <th width='120' align='center'>EGRESO</th>
-                  <th width='120' align='center'>SALDO</th>
-                  <th width='320' align='center'>CONCEPTO PAGO</th>
-				  <th width='320' align='center'>PERSONA</th>
-                  <th width='200' align='center'>COMENTARIO</th>
-                </tr>";
-        $suma2=0;        
-		while($registro2=$cons2->fetch()){		
-		$cont++;
-	   if($cont%2) $estilo="par"; else $estilo="impar";
-		$tabla.="<tr class='$estilo'>";			
-        $tabla.="<td align='center'>".$registro2[0]."</td>";
-		
-		if($registro2[1]=='INGRESO'){
-		
-		$suma2=$suma2+$registro2[3];
-		$tabla.="<td align='center'>".number_format($registro2[3],2)."</td>";
-        $tabla.="<td align='center'>0.00</td>";
-		$tabla.="<td align='center'>".number_format($suma2,2)."</td>";
-		
-		}else if($registro2[1]=='EGRESO'){
-		
-		$suma2=$suma2-$registro2[3];
-		$tabla.="<td align='center'>0.00</td>";
-		$tabla.="<td align='center'>".number_format($registro2[3],2)."</td>";
-		$tabla.="<td align='center'>".number_format($suma2,2)."</td>";
-		}
-		
-        
-		$tabla.="<td align='center'>".$registro2[6]."</td>";
-        $tabla.="<td align='center'>".$registro2[4]." ".$registro2[5]."</td>";
-        $tabla.="<td align='center'>".$registro2[7]."</td>";
-		$tabla.="</tr>";
-		}
-			
-         $tabla.="</table>";
-		 $tabla.="<p></p>";
-		 $tabla.="<p align='center'>SALDO $. ".number_format($suma2,2)."</p>";
-}*/
 		$tabla.="<input name='txtImprimir' type='button' id='IMPRIMIR' value='IMPRIMIR' onClick=javascript:window.open('pdf_utilidadRptDia.php?idtipodoc=$idtipodocumento&idrolpersona=$idrolpersona&fech=$fech&idconceptopago=$idconceptopago&moneda=$moneda','_blank')></fieldset>";
 
 
 	
-}else if($moneda=='S' || $moneda=='D'){
-
-$Ob3 = new clsMovCaja();		
-		$cons3= $Ob3-> buscarmovimientosrpt(
-$idtipodocumento,$idrolpersona,$idconceptopago,$moneda,'CAJA','N',$fech,$_SESSION['IdSucursal']);
-		$num3=$cons3->rowCount();
-
-if($num3==0){
-		
-		$tabla="<b>MONEDA: ".$moneda."</b><p>No existen Reportes..!</p>";
-		$tabla.="<input name='txtImprimir' type='button' id='IMPRIMIR' value='IMPRIMIR' onClick=javascript:window.open('pdf_utilidadRptDia.php?idtipodoc=$idtipodocumento&idrolpersona=$idrolpersona&fech=$fech&idconceptopago=$idconceptopago&moneda=$moneda','_blank')>";
-		
-}else{
-$tabla="<fieldset>
-                <legend><strong>REPORTE:</strong></legend>
-				<b>MONEDA: ".$moneda."</b>
-				<table width='1350' align='center' class=registros>
-                <tr>
-                  <th width='150' align='center'>Nro DOC.</th>
-                  <th width='120' align='center'>INGRESO</th>
-                  <th width='120' align='center' style = 'display:none'>EGRESO</th>
-                  <th width='120' align='center'>SALDO</th>
-                  <th width='320' align='center'>CONCEPTO PAGO</th>
-				  <th width='320' align='center'>PERSONA</th>
-                  <th width='200' align='center'>COMENTARIO</th>
-                </tr>";
-        $suma3=0;        
-		while($registro3=$cons3->fetch()){		
-		$cont++;
-	   if($cont%2) $estilo="par"; else $estilo="impar";
-		$tabla.="<tr class='$estilo'>";			
-        $tabla.="<td align='center'>".$registro3[0]."</td>";
-		
-		if($registro3[1]=='INGRESO'){
-		
-		$suma3=$suma3+$registro3[3];
-		$tabla.="<td align='center'>".number_format($registro3[3],2)."</td>";
-        $tabla.="<td align='center' style = 'display:none'>0.00</td>";
-		$tabla.="<td align='center'>".number_format($suma3,2)."</td>";
-		
-		}/*else if($registro3[1]=='EGRESO'){
-		
-		$suma3=$suma3-$registro3[3];
-		$tabla.="<td align='center'>0.00</td>";
-		$tabla.="<td align='center'>".number_format($registro3[3],2)."</td>";
-		$tabla.="<td align='center'>".number_format($suma3,2)."</td>";
-		}*/
-		
-        
-		$tabla.="<td align='center'>".$registro3[6]."</td>";
-        $tabla.="<td align='center'>".$registro3[4]." ".$registro3[5]."</td>";
-        $tabla.="<td align='center'>".$registro3[7]."</td>";
-		$tabla.="</tr>";
-		}
-				
-         $tabla.="</table>";
-		 $tabla.="<p></p>";
-		 if($moneda=='S'){
-		 $tabla.="<p align='center'>SALDO S/. ".number_format($suma3,2)."</p>";
-		 $tabla.="<input name='txtImprimir' type='button' id='IMPRIMIR' value='IMPRIMIR' onClick=javascript:window.open('pdf_utilidadRptDia.php?idtipodoc=$idtipodocumento&idrolpersona=$idrolpersona&fech=$fech&idconceptopago=$idconceptopago&moneda=$moneda','_blank')></fieldset>";
-		 }else if($moneda=='D'){
-		 $tabla.="<p align='center'>SALDO $. ".number_format($suma3,2)."</p>";
-		 $tabla.="<input name='txtImprimir' type='button' id='IMPRIMIR' value='IMPRIMIR' onClick=javascript:window.open('pdf_utilidadRptDia.php?idtipodoc=$idtipodocumento&idrolpersona=$idrolpersona&fech=$fech&idconceptopago=$idconceptopago&moneda=$moneda','_blank')></fieldset>";
-		 }
-		  
 }
-
-}	
 	
 	$tabla=utf8_encode($tabla);
 	$obj=new xajaxResponse();

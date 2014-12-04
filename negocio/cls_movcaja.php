@@ -516,11 +516,11 @@ function buscarmovimientosrpt($idtipodocumento,$idrolpersona,$idconceptopago,$mo
 
 if($idrolpersona!='0'){
 
-$sql="SELECT movimiento.NUMERO,tipodocumento.DESCRIPCION,movimiento.MONEDA,movimiento.TOTAL,persona.NOMBRES,persona.APELLIDOS,conceptopago.DESCRIPCION,movimiento.COMENTARIO FROM movimiento INNER JOIN tipodocumento ON tipodocumento.IDTIPODOCUMENTO = movimiento.IDTIPODOCUMENTO INNER JOIN persona ON movimiento.IDpersona = persona.IDpersona INNER JOIN rolpersona ON rolpersona.IDpersona = persona.IDpersona INNER JOIN conceptopago ON conceptopago.IDconceptopago = movimiento.IDconceptopago INNER JOIN tipomovimiento ON movimiento.IDtipomovimiento=tipomovimiento.IDtipomovimiento WHERE conceptopago.IDconceptopago!=2 ";
+$sql="SELECT movimiento.NUMERO,tipodocumento.DESCRIPCION,movimiento.MONEDA,movimiento.TOTAL,persona.NOMBRES,persona.APELLIDOS,conceptopago.DESCRIPCION,movimiento.COMENTARIO,movimiento.IdMovimiento FROM movimiento INNER JOIN tipodocumento ON tipodocumento.IDTIPODOCUMENTO = movimiento.IDTIPODOCUMENTO INNER JOIN persona ON movimiento.IDpersona = persona.IDpersona INNER JOIN rolpersona ON rolpersona.IDpersona = persona.IDpersona INNER JOIN conceptopago ON conceptopago.IDconceptopago = movimiento.IDconceptopago INNER JOIN tipomovimiento ON movimiento.IDtipomovimiento=tipomovimiento.IDtipomovimiento WHERE conceptopago.IDconceptopago!=2 ";
 
 }else{
 
-$sql="SELECT movimiento.NUMERO,tipodocumento.DESCRIPCION,movimiento.MONEDA,movimiento.TOTAL,persona.NOMBRES,persona.APELLIDOS,conceptopago.DESCRIPCION,movimiento.COMENTARIO FROM movimiento INNER JOIN tipodocumento ON tipodocumento.IDTIPODOCUMENTO = movimiento.IDTIPODOCUMENTO INNER JOIN persona ON movimiento.IDpersona = persona.IDpersona INNER JOIN conceptopago ON conceptopago.IDconceptopago = movimiento.IDconceptopago INNER JOIN tipomovimiento ON movimiento.IDtipomovimiento=tipomovimiento.IDtipomovimiento WHERE conceptopago.IDconceptopago!=2 ";
+$sql="SELECT movimiento.NUMERO,tipodocumento.DESCRIPCION,movimiento.MONEDA,movimiento.TOTAL,persona.NOMBRES,persona.APELLIDOS,conceptopago.DESCRIPCION,movimiento.COMENTARIO, movimiento.IdMovimiento FROM movimiento INNER JOIN tipodocumento ON tipodocumento.IDTIPODOCUMENTO = movimiento.IDTIPODOCUMENTO INNER JOIN persona ON movimiento.IDpersona = persona.IDpersona INNER JOIN conceptopago ON conceptopago.IDconceptopago = movimiento.IDconceptopago INNER JOIN tipomovimiento ON movimiento.IDtipomovimiento=tipomovimiento.IDtipomovimiento WHERE conceptopago.IDconceptopago!=2 ";
 }
 
 if(isset($caja)){
@@ -547,10 +547,16 @@ if($idconceptopago!='0'){
 if($moneda!='0'){
 	$sql = $sql . " AND movimiento.moneda='".$moneda."'";
 }
-	
+
 global $cnx;
 return $cnx->query($sql);
 
+}
+
+function consultarDetPrecCompPorMovimiento($idmovimiento){
+	$sql = "SELECT SUM(detallemovalmacen.preciocompra) as totaldepreciocompra FROM detallemovalmacen INNER JOIN movimiento ON detallemovalmacen.idmovimiento= movimiento.idmovimiento WHERE movimiento.idmovimiento ='".$idmovimiento."'";
+	global $cnx;
+	return $cnx->query($sql);
 }
 
 function consultar_cuota($idcuota){

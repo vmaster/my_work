@@ -43,7 +43,7 @@ $rol=$rst1;
 
 $pdf->AddPage('L','A4');
 $pdf->SetFont('Arial','B',18);
-$pdf->Cell(280,10,'REPORTE DE MOVIMIENTO DE CAJA POR DIA',0,1,'C');
+$pdf->Cell(280,10,'REPORTE DE UTILIDAD POR DIA',0,1,'C');
 $pdf->Ln();
 
 $pdf->SetFont('Arial','B',10);
@@ -56,154 +56,48 @@ $pdf->Ln();
 
 
 if($moneda=='0'){
-$pdf->Cell(25,8,"MONEDA: SOLES",0,0,'L');
-$pdf->Ln();
-$pdf->Cell(40,8,"NRO DOC",1,0,'C');
-$pdf->Cell(25,8,"INGRESO",1,0,'C');
-//$pdf->Cell(25,8,"EGRESO",1,0,'C');
-$pdf->Cell(30,8,"SALDO",1,0,'C');
-$pdf->Cell(50,8,"CONCEPTO PAGO",1,0,'C');
-$pdf->Cell(60,8,"PERSONA",1,0,'C');
-$pdf->Cell(50,8,"COMENTARIO",1,0,'C');
-$pdf->SetFont('Arial','',9);
-$pdf->Ln();
+	$pdf->Cell(25,8,"MONEDA: SOLES",0,0,'L');
+	$pdf->Ln();
+	$pdf->Cell(40,8,"NRO DOC",1,0,'C');
+	$pdf->Cell(35,8,"TOTAL P.VENTA",1,0,'C');
+	$pdf->Cell(40,8,"TOTAL P.COMPRA",1,0,'C');
+	$pdf->Cell(50,8,"CONCEPTO PAGO",1,0,'C');
+	$pdf->Cell(60,8,"PERSONA",1,0,'C');
+	$pdf->Cell(50,8,"COMENTARIO",1,0,'C');
+	$pdf->SetFont('Arial','',9);
+	$pdf->Ln();
 
-$Ob = new clsMovCaja();		
-$cons= $Ob-> buscarmovimientosrpt(
-$idtipodocumento,$idrolpersona,$idconceptopago,'S','CAJA','N',$fecha,$_SESSION['IdSucursal']);
+	$Ob = new clsMovCaja();
+	$cons= $Ob-> buscarmovimientosrpt(
+			$idtipodocumento,$idrolpersona,$idconceptopago,'S','VENTA','N',$fecha,$_SESSION['IdSucursal']);
 
-$suma=0;
-while($registro=$cons->fetch()){		
-		
+	$suma=0;
+	while($registro=$cons->fetch()){
+
 		$pdf->Cell(40,8,$registro[0],1,0,'C');
-		
-		if($registro[1]=='INGRESO'){
-		
+
 		$suma=$suma+$registro[3];
-		$pdf->Cell(25,8,number_format($registro[3],2),1,0,'C');
-        //$pdf->Cell(25,8,0.00,1,0,'C');
-		$pdf->Cell(30,8,number_format($suma,2),1,0,'C');
-		
-		}else if($registro[1]=='EGRESO'){
-		
-		$suma=$suma-$registro[3];
-		$pdf->Cell(25,8,0.00,1,0,'C');
-        $pdf->Cell(25,8,number_format($registro[3],2),1,0,'C');
-		$pdf->Cell(30,8,number_format($suma,2),1,0,'C');
-		
-		}
-		
+		$pdf->Cell(35,8,number_format($registro[3],2),1,0,'C');
+		$ObjMovCaja = new clsMovCaja();
+		$cons_precio_compra = $ObjMovCaja->consultarDetPrecCompPorMovimiento($registro[8]);
+		$precio_compra = $cons_precio_compra->fetch();
+		$pdf->Cell(40,8,number_format($precio_compra[0],2),1,0,'C');
+
+
 		$pdf->Cell(50,8,substr($registro[6],0,24).".",1,0,'C');
 		$pdf->Cell(60,8,substr($registro[4]." ".$registro[5],0,27).".",1,0,'C');
 		$pdf->Cell(50,8,substr($registro[7],0,24).".",1,0,'C');
 		$pdf->Ln();
-}
+		$suma_precio_compra= $suma_precio_compra + $precio_compra[0];
+	}
 
-$pdf->Cell(25,8,"SALDO S/. ".number_format($suma,2),0,0,'L');
-$pdf->Ln();
+	$pdf->Cell(25,8,"SUMA PRECIO DE VENTA S/. ".number_format($suma,2),0,0,'L');
+	$pdf->Ln();
+	$pdf->Cell(25,8,"SUMA PRECIO DE COMPRA S/. ".number_format($suma_precio_compra,2),0,0,'L');
+	$pdf->Ln();
+	$pdf->Cell(25,8,"UTILIDAD S/. ".(number_format($suma,2) - number_format($suma_precio_compra,2)),0,0,'L');
+	$pdf->Ln();
 
-/*$pdf->SetFont('Arial','B',10);
-$pdf->Cell(25,8,"MONEDA: DOLARES",0,0,'L');
-$pdf->Ln();
-
-$pdf->Cell(40,8,"NRO DOC",1,0,'C');
-$pdf->Cell(25,8,"INGRESO",1,0,'C');
-$pdf->Cell(25,8,"EGRESO",1,0,'C');
-$pdf->Cell(30,8,"SALDO",1,0,'C');
-$pdf->Cell(50,8,"CONCEPTO PAGO",1,0,'C');
-$pdf->Cell(60,8,"PERSONA",1,0,'C');
-$pdf->Cell(50,8,"COMENTARIO",1,0,'C');
-$pdf->SetFont('Arial','',9);
-$pdf->Ln();
-
-$Ob2 = new clsMovCaja();		
-$cons2= $Ob2-> buscarmovimientosrpt(
-$idtipodocumento,$idrolpersona,$idconceptopago,'D','CAJA','N',$fecha,$_SESSION['IdSucursal']);
-
-$suma2=0;
-while($registro2=$cons2->fetch()){		
-		
-		$pdf->Cell(40,8,$registro2[0],1,0,'C');
-		
-		if($registro2[1]=='INGRESO'){
-		
-		$suma2=$suma2+$registro2[3];
-		$pdf->Cell(25,8,number_format($registro2[3],2),1,0,'C');
-        $pdf->Cell(25,8,0.00,1,0,'C');
-		$pdf->Cell(30,8,number_format($suma2,2),1,0,'C');
-		
-		}else if($registro2[1]=='EGRESO'){
-		
-		$suma2=$suma2-$registro2[3];
-		$pdf->Cell(25,8,0.00,1,0,'C');
-        $pdf->Cell(25,8,$registro2[3],1,0,'C');
-		$pdf->Cell(30,8,number_format($suma2,2),1,0,'C');
-		
-		}
-		
-		$pdf->Cell(50,8,substr($registro2[6],0,24).".",1,0,'C');
-		$pdf->Cell(60,8,substr($registro2[4]." ".$registro2[5],0,27).".",1,0,'C');
-		$pdf->Cell(50,8,substr($registro2[7],0,24).".",1,0,'C');
-		$pdf->Ln();
-}
-
-$pdf->Cell(25,8,"SALDO $. ".number_format($suma2,2),0,0,'L');
-$pdf->Ln();*/
-
-}elseif($moneda=='S' || $moneda=='D'){
-
-if($moneda=='S'){
-$mon='SOLES';
-$ico="S/.";
-}else if($moneda=='D'){
-$mon='DOLARES';
-$ico="$.";
-}
-
-$pdf->Cell(25,8,"MONEDA: ".$mon."",0,0,'L');
-$pdf->Ln();
-$pdf->Cell(40,8,"NRO DOC",1,0,'C');
-$pdf->Cell(25,8,"INGRESO",1,0,'C');
-$pdf->Cell(25,8,"EGRESO",1,0,'C');
-$pdf->Cell(30,8,"SALDO",1,0,'C');
-$pdf->Cell(50,8,"CONCEPTO PAGO",1,0,'C');
-$pdf->Cell(60,8,"PERSONA",1,0,'C');
-$pdf->Cell(50,8,"COMENTARIO",1,0,'C');
-$pdf->SetFont('Arial','',9);
-$pdf->Ln();
-
-$Ob = new clsMovCaja();		
-$cons= $Ob-> buscarmovimientosrpt(
-$idtipodocumento,$idrolpersona,$idconceptopago,$moneda,'CAJA','N',$fecha,$_SESSION['IdSucursal']);
-
-$suma=0;
-while($registro=$cons->fetch()){		
-		
-		$pdf->Cell(40,8,$registro[0],1,0,'C');
-		
-		if($registro[1]=='INGRESO'){
-		
-		$suma=$suma+$registro[3];
-		$pdf->Cell(25,8,number_format($registro[3],2),1,0,'C');
-        $pdf->Cell(25,8,0.00,1,0,'C');
-		$pdf->Cell(30,8,number_format($suma,2),1,0,'C');
-		
-		}else if($registro[1]=='EGRESO'){
-		
-		$suma=$suma-$registro[3];
-		$pdf->Cell(25,8,0.00,1,0,'C');
-        $pdf->Cell(25,8,number_format($registro[3],2),1,0,'C');
-		$pdf->Cell(30,8,number_format($suma,2),1,0,'C');
-		
-		}
-		
-		$pdf->Cell(50,8,substr($registro[6],0,24).".",1,0,'C');
-		$pdf->Cell(60,8,substr($registro[4]." ".$registro[5],0,27).".",1,0,'C');
-		$pdf->Cell(50,8,substr($registro[7],0,24).".",1,0,'C');
-		$pdf->Ln();
-}
-$pdf->Cell(25,8,"SALDO ".$ico." ".number_format($suma,2),0,0,'L');
-$pdf->Ln();
 
 
 }
