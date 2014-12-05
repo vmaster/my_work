@@ -947,15 +947,15 @@ function generarventasinicio(){
 	<th width='74'>DOC.</th>
 	<th width='129'>N&deg;</th>
 	<th width='144'>FECHA</th>
-	<th width='159'>FORMA PAGO </th>
+	<!--<th width='159'>FORMA PAGO </th>-->
 	<th width='106'>CLIENTE</th>
 	<th width='144'>RESPONSABLE</th>
-	<th width='76'>SUBTOTAL</th>
-	<th width='76'>IGV</th>
+	<!--<th width='76'>SUBTOTAL</th>
+	<th width='76'>IGV</th>-->
 	<th width='76'>TOTAL</th>
-	<th width='76'>MONEDA</th>
+	<!--<th width='76'>MONEDA</th>-->
 	<th width='76'>COMENTARIO</th>
-	<th width='144'>ESTADO</th>
+	<!--<th width='144'>ESTADO</th>-->
 	<th colspan='4'>OPERACIONES</th>
 	</tr>";
 
@@ -983,29 +983,29 @@ function generarventasinicio(){
 	$registro.="<td align='center'>".$dato->numero."</td>";
 	}
 	$registro.="<td align='center'>".$dato->fecha."</td>";
-	if($dato->formapago=="A"){
+	/*if($dato->formapago=="A"){
 	$formapago="Contado";}
 	else{
 	$formapago="Credito";}
 
-	$registro.="<td>".$formapago."</td>";
+	$registro.="<td>".$formapago."</td>";*/
 	$registro.="<td align='center'>".$dato->cliente.' '.$dato->acliente."</td>";
 	$registro.="<td align='center'>".$dato->responsable.' '.$dato->aresponsable."</td>";
-	$registro.="<td align='center'>".$dato->subtotal."</td>";
-	$registro.="<td align='center'>".$dato->igv."</td>";
+	//$registro.="<td align='center'>".$dato->subtotal."</td>";
+	//$registro.="<td align='center'>".$dato->igv."</td>";
 	$registro.="<td align='center'>".$dato->total."</td>";
-	$registro.="<td align='center'>".$dato->moneda."</td>";
+	//$registro.="<td align='center'>".$dato->moneda."</td>";
 		if($dato->comentario==""){
 		$registro.="<td align='center'>".'-'."</td>";
 		}else{
 		$registro.="<td>".$dato->comentario."</td>";
 		}
-	$registro.="<td align='center'>".$estado."</td>";
+	//$registro.="<td align='center'>".$estado."</td>";
 	$registro.="<td width='54'><a href='frm_detalleventa.php?IdVenta=".$dato->idmovimiento."'>Ver Detalle </a></td>";
 if($formapago=="Credito"){
 	$registro.="<td><a onClick='vercuotas(".$dato->idmovimiento.")'>VerCuotas</a></td>";
 	}else{
-	$registro.="<td>-</td>";
+	//$registro.="<td>-</td>";
 	}
 	
 	if($dato->idtipodocumento==1){

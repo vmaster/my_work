@@ -126,13 +126,23 @@ window.open('frm_cuotasventas.php?accion=VER&origen=DOC&idventa='+idventa,'_blan
       <input type="button" name="Submit" value="Regresar" onClick="javascript:window.open('list_ventas.php','_self')">
 	  <?php }?>
     </label></td>
+	<?php if($detalle2->idtipodocumento==2 or $detalle2->idtipodocumento==4){?>
     <td width="145" class="alignright" >SUBTOTAL :</td>
     <td width="118"><?php if($detalle2->moneda=='S'){ echo  'S/.  '.$detalle2->subtotal;}else{echo  '$ '.$detalle2->subtotal; }?></td>
+	<?php }else{?>
+	<td>&nbsp;</td>
+	<td>&nbsp;</td>
+	<?php }?>
   </tr>
   <tr>
     <td>&nbsp;</td>
-    <td class="alignright">IGV :</td>
+	<?php if($detalle2->idtipodocumento==2 or $detalle2->idtipodocumento==4){?>
+    <td class="alignright">IGV 2:</td>
     <td><?php if($detalle2->moneda=='S'){echo  'S/. '.$detalle2->igv;}else{ echo  '$ '.$detalle2->igv;}?></td>
+	<?php }else{?>
+	<td>&nbsp;</td>
+	<td>&nbsp;</td>
+	<?php }?>
   </tr>
   <tr>
     <td>&nbsp;</td>
