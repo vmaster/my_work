@@ -97,58 +97,145 @@ return $valor[0];
 
 }
 
+function reporteutilidadyear($idtipodocumento,$idrolpersona,$idconceptopago,$moneda,$caja,$estado,$yearI,$idsucursal){
+	$get_pcosto_x_year = "(SELECT SUM(detallemovalmacen.PRECIOCOMPRA) FROM detallemovalmacen INNER JOIN movimiento on detallemovalmacen.idmovimiento = movimiento.idmovimiento WHERE YEAR( movimiento.fecha )='".$yearI."' AND movimiento.IDSUCURSAL='".$idsucursal."' AND movimiento.idtipodocumento='".$idtipodocumento."' AND movimiento.moneda='".$moneda."' AND  movimiento.idconceptopago!=2 GROUP BY YEAR( movimiento.FECHA ))";
+	if($idrolpersona!='0'){
+
+		$sql="SELECT SUM( movimiento.TOTAL ) AS sumaventa,".$get_pcosto_x_year." AS sumacompra FROM movimiento INNER JOIN tipodocumento ON tipodocumento.IDTIPODOCUMENTO = movimiento.IDTIPODOCUMENTO INNER JOIN persona ON movimiento.IDpersona = persona.IDpersona INNER JOIN rolpersona ON rolpersona.IDpersona = persona.IDpersona INNER JOIN conceptopago ON conceptopago.IDconceptopago = movimiento.IDconceptopago INNER JOIN tipomovimiento ON movimiento.IDtipomovimiento=tipomovimiento.IDtipomovimiento WHERE conceptopago.IDconceptopago!=2 ";
+
+	}else{
+
+		$sql="SELECT SUM( movimiento.TOTAL ) AS sumaventa,".$get_pcosto_x_year." AS sumacompra FROM movimiento INNER JOIN tipodocumento ON tipodocumento.IDTIPODOCUMENTO = movimiento.IDTIPODOCUMENTO INNER JOIN persona ON movimiento.IDpersona = persona.IDpersona INNER JOIN conceptopago ON conceptopago.IDconceptopago = movimiento.IDconceptopago INNER JOIN tipomovimiento ON movimiento.IDtipomovimiento=tipomovimiento.IDtipomovimiento WHERE conceptopago.IDconceptopago!=2 ";
+	}
+
+	if(isset($caja)){
+		$sql = $sql . " AND tipomovimiento.descripcion='".$caja."'";
+	}
+	if(isset($estado)){
+		$sql = $sql . " AND movimiento.estado='".$estado."'";
+	}
+	if(isset($yearI)){
+		$sql = $sql . " AND YEAR( movimiento.fecha )='".$yearI."'";
+	}
+	if(isset($idsucursal)){
+		$sql = $sql . " AND movimiento.IDSUCURSAL='".$idsucursal."'";
+	}
+	if($idtipodocumento!='0'){
+		$sql = $sql . " AND movimiento.idtipodocumento='".$idtipodocumento."'";
+	}
+	if($idrolpersona!='0'){
+		$sql = $sql . " AND rolpersona.idrol='".$idrolpersona."'";
+	}
+	if($idconceptopago!='0'){
+		$sql = $sql . " AND movimiento.idconceptopago='".$idconceptopago."'";
+	}
+	if($moneda!='0'){
+		$sql = $sql . " AND movimiento.moneda='".$moneda."'";
+	}
+
+	$sql=$sql." GROUP BY YEAR( movimiento.FECHA ), tipodocumento.DESCRIPCION, movimiento.MONEDA";
+
+	global $cnx;
+	
+	return $cnx->query($sql);
+}
+
 
 
 function reportesmes($idtipodocumento,$idrolpersona,$idconceptopago,$moneda,$caja,$estado,$fechaI,$idsucursal,$year){
 
-if($idrolpersona!='0'){
+	if($idrolpersona!='0'){
 
-$sql="SELECT SUM( movimiento.TOTAL )  FROM movimiento INNER JOIN tipodocumento ON tipodocumento.IDTIPODOCUMENTO = movimiento.IDTIPODOCUMENTO INNER JOIN persona ON movimiento.IDpersona = persona.IDpersona INNER JOIN rolpersona ON rolpersona.IDpersona = persona.IDpersona INNER JOIN conceptopago ON conceptopago.IDconceptopago = movimiento.IDconceptopago INNER JOIN tipomovimiento ON movimiento.IDtipomovimiento=tipomovimiento.IDtipomovimiento WHERE conceptopago.IDconceptopago!=2 ";
+		$sql="SELECT SUM( movimiento.TOTAL )  FROM movimiento INNER JOIN tipodocumento ON tipodocumento.IDTIPODOCUMENTO = movimiento.IDTIPODOCUMENTO INNER JOIN persona ON movimiento.IDpersona = persona.IDpersona INNER JOIN rolpersona ON rolpersona.IDpersona = persona.IDpersona INNER JOIN conceptopago ON conceptopago.IDconceptopago = movimiento.IDconceptopago INNER JOIN tipomovimiento ON movimiento.IDtipomovimiento=tipomovimiento.IDtipomovimiento WHERE conceptopago.IDconceptopago!=2 ";
 
-}else{
+	}else{
 
-$sql="SELECT SUM( movimiento.TOTAL ) FROM movimiento INNER JOIN tipodocumento ON tipodocumento.IDTIPODOCUMENTO = movimiento.IDTIPODOCUMENTO INNER JOIN persona ON movimiento.IDpersona = persona.IDpersona INNER JOIN conceptopago ON conceptopago.IDconceptopago = movimiento.IDconceptopago INNER JOIN tipomovimiento ON movimiento.IDtipomovimiento=tipomovimiento.IDtipomovimiento WHERE conceptopago.IDconceptopago!=2 ";
+		$sql="SELECT SUM( movimiento.TOTAL ) FROM movimiento INNER JOIN tipodocumento ON tipodocumento.IDTIPODOCUMENTO = movimiento.IDTIPODOCUMENTO INNER JOIN persona ON movimiento.IDpersona = persona.IDpersona INNER JOIN conceptopago ON conceptopago.IDconceptopago = movimiento.IDconceptopago INNER JOIN tipomovimiento ON movimiento.IDtipomovimiento=tipomovimiento.IDtipomovimiento WHERE conceptopago.IDconceptopago!=2 ";
+	}
+
+	if(isset($caja)){
+		$sql = $sql . " AND tipomovimiento.descripcion='".$caja."'";
+	}
+	if(isset($estado)){
+		$sql = $sql . " AND movimiento.estado='".$estado."'";
+	}
+	if(isset($fechaI)){
+		$sql = $sql . " AND MONTH( movimiento.fecha )='".$fechaI."'";
+	}
+	if(isset($idsucursal)){
+		$sql = $sql . " AND movimiento.IDSUCURSAL='".$idsucursal."'";
+	}
+	if($idtipodocumento!='0'){
+		$sql = $sql . " AND movimiento.idtipodocumento='".$idtipodocumento."'";
+	}
+	if($idrolpersona!='0'){
+		$sql = $sql . " AND rolpersona.idrol='".$idrolpersona."'";
+	}
+	if($idconceptopago!='0'){
+		$sql = $sql . " AND movimiento.idconceptopago='".$idconceptopago."'";
+	}
+	if($moneda!='0'){
+		$sql = $sql . " AND movimiento.moneda='".$moneda."'";
+	}
+	if(isset($year)){
+		$sql = $sql . " AND YEAR( movimiento.fecha )='".$year."'";
+	}
+
+	$sql=$sql." GROUP BY MONTH( movimiento.FECHA ), tipodocumento.DESCRIPCION, movimiento.MONEDA";
+
+	global $cnx;
+	$rst=$cnx->query($sql);
+	$valor=$rst->fetch();
+	if($valor[0]==''){
+		return '0.00';
+	}else{
+		return $valor[0];
+	}
 }
 
-if(isset($caja)){
- 	$sql = $sql . " AND tipomovimiento.descripcion='".$caja."'";
-}
-if(isset($estado)){
- 	$sql = $sql . " AND movimiento.estado='".$estado."'";
-}
-if(isset($fechaI)){
- 	$sql = $sql . " AND MONTH( movimiento.fecha )='".$fechaI."'";
-}
-if(isset($idsucursal)){
- 	$sql = $sql . " AND movimiento.IDSUCURSAL='".$idsucursal."'";
-}
-if($idtipodocumento!='0'){
- 	$sql = $sql . " AND movimiento.idtipodocumento='".$idtipodocumento."'";
-}
-if($idrolpersona!='0'){
- 	$sql = $sql . " AND rolpersona.idrol='".$idrolpersona."'";
-}
-if($idconceptopago!='0'){
- 	$sql = $sql . " AND movimiento.idconceptopago='".$idconceptopago."'";
-}
-if($moneda!='0'){
-	$sql = $sql . " AND movimiento.moneda='".$moneda."'";
-}
-if(isset($year)){
-	$sql = $sql . " AND YEAR( movimiento.fecha )='".$year."'";
-}
+function reporteutilidadmes($idtipodocumento,$idrolpersona,$idconceptopago,$moneda,$caja,$estado,$fechaI,$idsucursal,$year){
+	$get_pcosto_x_mes = "(SELECT SUM(detallemovalmacen.PRECIOCOMPRA) FROM detallemovalmacen INNER JOIN movimiento on detallemovalmacen.idmovimiento = movimiento.idmovimiento WHERE MONTH( movimiento.fecha )='".$fechaI."' AND YEAR( movimiento.fecha )='".$year."' AND movimiento.IDSUCURSAL='".$idsucursal."' AND movimiento.idtipodocumento='".$idtipodocumento."' AND movimiento.moneda='".$moneda."' AND  movimiento.idconceptopago!=2 GROUP BY MONTH( movimiento.FECHA ))";
+	if($idrolpersona!='0'){
 
-$sql=$sql." GROUP BY MONTH( movimiento.FECHA ), tipodocumento.DESCRIPCION, movimiento.MONEDA";
-	
-global $cnx;
-$rst=$cnx->query($sql);
-$valor=$rst->fetch();
-if($valor[0]==''){
-return '0.00';
-}else{
-return $valor[0];
-}
+		$sql="SELECT SUM( movimiento.TOTAL ) AS sumaventa,".$get_pcosto_x_mes." AS sumacompra  FROM movimiento INNER JOIN tipodocumento ON tipodocumento.IDTIPODOCUMENTO = movimiento.IDTIPODOCUMENTO INNER JOIN persona ON movimiento.IDpersona = persona.IDpersona INNER JOIN rolpersona ON rolpersona.IDpersona = persona.IDpersona INNER JOIN conceptopago ON conceptopago.IDconceptopago = movimiento.IDconceptopago INNER JOIN tipomovimiento ON movimiento.IDtipomovimiento=tipomovimiento.IDtipomovimiento WHERE conceptopago.IDconceptopago!=2 ";
 
+	}else{
+
+		$sql="SELECT SUM( movimiento.TOTAL ) AS sumaventa,".$get_pcosto_x_mes." AS sumacompra FROM movimiento INNER JOIN tipodocumento ON tipodocumento.IDTIPODOCUMENTO = movimiento.IDTIPODOCUMENTO INNER JOIN persona ON movimiento.IDpersona = persona.IDpersona INNER JOIN conceptopago ON conceptopago.IDconceptopago = movimiento.IDconceptopago INNER JOIN tipomovimiento ON movimiento.IDtipomovimiento=tipomovimiento.IDtipomovimiento WHERE conceptopago.IDconceptopago!=2 ";
+	}
+
+	if(isset($caja)){
+		$sql = $sql . " AND tipomovimiento.descripcion='".$caja."'";
+	}
+	if(isset($estado)){
+		$sql = $sql . " AND movimiento.estado='".$estado."'";
+	}
+	if(isset($fechaI)){
+		$sql = $sql . " AND MONTH( movimiento.fecha )='".$fechaI."'";
+	}
+	if(isset($idsucursal)){
+		$sql = $sql . " AND movimiento.IDSUCURSAL='".$idsucursal."'";
+	}
+	if($idtipodocumento!='0'){
+		$sql = $sql . " AND movimiento.idtipodocumento='".$idtipodocumento."'";
+	}
+	if($idrolpersona!='0'){
+		$sql = $sql . " AND rolpersona.idrol='".$idrolpersona."'";
+	}
+	if($idconceptopago!='0'){
+		$sql = $sql . " AND movimiento.idconceptopago='".$idconceptopago."'";
+	}
+	if($moneda!='0'){
+		$sql = $sql . " AND movimiento.moneda='".$moneda."'";
+	}
+	if(isset($year)){
+		$sql = $sql . " AND YEAR( movimiento.fecha )='".$year."'";
+	}
+
+	$sql=$sql." GROUP BY MONTH( movimiento.FECHA ), tipodocumento.DESCRIPCION, movimiento.MONEDA";
+	//print_r($sql); exit();
+	global $cnx;
+	return $cnx->query($sql);
 }
 
 function nombremes($mes){

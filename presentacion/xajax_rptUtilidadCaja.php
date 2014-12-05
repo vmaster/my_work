@@ -226,74 +226,60 @@ $combo2="<select name='cboDoc' id='cboDoc'>
 
 
 function rptyear($idtipodocumento,$yearinicio,$yearfin,$idconceptopago,$idrolpersona,$moneda){
-if($yearinicio<=$yearfin){
-$num=$yearfin-$yearinicio;
-$yearI=$yearinicio;
-$yearF=$yearfin;
-}else{
-$num=$yearinicio-$yearfin;
-$yearI=$yearfin;
-$yearF=$yearinicio;
-}
+	if($yearinicio<=$yearfin){
+		$num=$yearfin-$yearinicio;
+		$yearI=$yearinicio;
+		$yearF=$yearfin;
+	}else{
+		$num=$yearinicio-$yearfin;
+		$yearI=$yearfin;
+		$yearF=$yearinicio;
+	}
 
-$tabla="<fieldset>
-                <legend><strong>REPORTE:</strong></legend>
-	<table width='1150' class=registros>
-    <tr>
-      <th align='center'>--</th>
-      <th align='center'>INGRESO</th>
-      <th align='center'>TOTALES</th>
-    </tr>
-    <tr>
-      <th align='center'>AÑO</th>
-      <th align='center'>SOLES</th>
-      <th align='center'>TOTAL SOLES </th>
-    </tr>";
-	$Ob = new clsMovCaja();		
-	
+	$tabla="<fieldset>
+			<legend><strong>REPORTE:</strong></legend>
+			<table width='1150' class=registros>
+			<tr>
+			<th align='center'>AÑO</th>
+			<th align='center'>VENTAS POR AÑO</th>
+			<th align='center'>COMPRAS POR AÑO</th>
+	  <th align='center'>UTILIDAD POR AÑO</th>
+			</tr>";
+	$Ob = new clsMovCaja();
+
 	$IS=0;
 	$ID=0;
 	$ES=0;
 	$ED=0;
-	
+
 	for($i=$yearI;$i<=$yearF;$i++){
 		$cont++;
-	   if($cont%2) $estilo="par"; else $estilo="impar";
-	   
-    $ISano=$Ob->reportesyear(10,$idrolpersona,$idconceptopago,'S','CAJA','N',$i,$_SESSION['IdSucursal'],$year);
-	$IDano=$Ob->reportesyear(10,$idrolpersona,$idconceptopago,'D','CAJA','N',$i,$_SESSION['IdSucursal'],$year);
-	$ESano=$Ob->reportesyear(11,$idrolpersona,$idconceptopago,'S','CAJA','N',$i,$_SESSION['IdSucursal'],$year);
-	$EDano=$Ob->reportesyear(11,$idrolpersona,$idconceptopago,'D','CAJA','N',$i,$_SESSION['IdSucursal'],$year);
-	
-    $tabla.="<tr class='$estilo'>";
-    $tabla.="<td align='center'>".$i."</td>";
-	$tabla.="<td align='center'>".number_format($ISano,2)."</td>";
-	$tabla.="<td align='center'>".number_format(($ISano-$ESano),2)."</td>";
-    $tabla.="</tr>";
-	
-	$IS=$IS+$ISano;
-	$ID=$ID+$IDano;
-	$ES=$ES+$ESano;
-	$ED=$ED+$EDano;
-	$datos1[$i]=$ISano;
-	$datos2[$i]=$ESano;
+		if($cont%2) $estilo="par"; else $estilo="impar";
+
+		$ISano=$Ob->reporteutilidadyear(1,$idrolpersona,$idconceptopago,'S','VENTA','N',$i,$_SESSION['IdSucursal'],$year);
+
+		$registro = $ISano->fetch();
+		$tabla.="<tr class='$estilo'>";
+		$tabla.="<td align='center'>".$i."</td>";
+		$tabla.="<td align='center'>".number_format($registro[0],2)."</td>";
+		$tabla.="<td align='center'>".number_format($registro[1],2)."</td>";
+		$tabla.="<td align='center'>".(number_format($registro[0],2) - number_format($registro[1],2))."</td>";
+		$tabla.="</tr>";
+
+		$IS=$IS+$ISano;
+		$ID=$ID+$IDano;
+		$ES=$ES+$ESano;
+		$ED=$ED+$EDano;
+		$datos1[$i]=$ISano;
+		$datos2[$i]=$ESano;
 	}
-	
-	
-	$tabla.="<tr>";
-    $tabla.="<th align='center'>TOTALES :</th>";
-	$tabla.="<th align='center'>S/. ".number_format($IS,2)."</th>";
-	$tabla.="<th align='center'>S/. ".number_format(($IS-$ES),2)."</th>";
-    $tabla.="</tr>";
-	
-  	$tabla.="</table></fieldset>";
+
+	$tabla.="</table></fieldset>";
 
 	$tabla.="<center><a href=\"#\" onClick=javascript:window.open('pdf_utilidadRptYear.php?idtipodoc=$idtipodocumento&idrolpersona=$idrolpersona&yearI=$yearinicio&yearF=$yearfin&idconceptopago=$idconceptopago&moneda=$moneda','_blank')><img src=\"../imagenes/print_f2.png\" with=20 height=20>&nbsp;Imprimir</a>&nbsp;";
 	$_SESSION['data1']=$datos1;
 	$_SESSION['data2']=$datos2;
-	//$tabla.="<a href=\"#\" onclick=\"javascript: if(document.getElementById('divGrafico').style.display=='') document.getElementById('divGrafico').style.display='none'; else document.getElementById('divGrafico').style.display=''\"><img src=\"../imagenes/estadistica.png\" with=20 height=20>&nbsp;ver Gr&aacute;fico</a></center><br>";
-	//$tabla.='<div id="divGrafico" style="display:none"><center><div id="titulo01">Gr&aacute;fico de ingresos y egresos por a&ntilde;o</div><img src="grafico2arrays.php"/><br><font color="#0033FF">INGRESOS</font>&nbsp;&nbsp;&nbsp;&nbsp;<font color="#FF0000">EGRESOS</font></center></div>';
-			
+		
 	$tabla=utf8_encode($tabla);
 	$obj=new xajaxResponse();
 	$obj->assign("divresultadosreporte","innerHTML",$tabla);
@@ -304,75 +290,62 @@ $tabla="<fieldset>
 
 
 function rptmes($idtipodocumento,$mesinicio,$mesfin,$idconceptopago,$idrolpersona,$moneda,$year){
-if($mesinicio<=$mesfin){
-$num=$mesfin-$mesinicio;
-$mesI=$mesinicio;
-$mesF=$mesfin;
-}else{
-$num=$mesinicio-$mesfin;
-$mesI=$mesfin;
-$mesF=$mesinicio;
-}
+	if($mesinicio<=$mesfin){
+		$num=$mesfin-$mesinicio;
+		$mesI=$mesinicio;
+		$mesF=$mesfin;
+	}else{
+		$num=$mesinicio-$mesfin;
+		$mesI=$mesfin;
+		$mesF=$mesinicio;
+	}
 
 
-$tabla="<fieldset>
-                <legend><strong>REPORTE:</strong></legend>
-	<table width='1250' class=registros>
-    <tr>
-      <th align='center'>--</th>
-      <th align='center'>INGRESO</th>
-      <th align='center'>TOTALES</th>
-    </tr>
-    <tr>
-      <th align='center'>MES</th>
-      <th align='center'>SOLES</th>
-      <th align='center'>TOTAL SOLES </th>
-    </tr>";
-	$Ob = new clsMovCaja();		
-	
+	$tabla="<fieldset>
+			<legend><strong>REPORTE:</strong></legend>
+			<table width='1250' class=registros>
+			<tr>
+			<th align='center'>MES</th>
+			<th align='center'>VENTAS POR MES (S/.)</th>
+	  <th align='center'>COMPRAS POR MES (S/.)</th>
+			<th align='center'>UTILIDAD POR MES </th>
+			</tr>";
+	$Ob = new clsMovCaja();
+
 	$IS=0;
 	$ID=0;
 	$ES=0;
 	$ED=0;
-	
+
 	for($i=$mesI;$i<=$mesF;$i++){
 		$cont++;
-	   if($cont%2) $estilo="par"; else $estilo="impar";
-	   
-	$ISmes=$Ob->reportesmes(10,$idrolpersona,$idconceptopago,'S','CAJA','N',$i,$_SESSION['IdSucursal'],$year);
-	$IDmes=$Ob->reportesmes(10,$idrolpersona,$idconceptopago,'D','CAJA','N',$i,$_SESSION['IdSucursal'],$year);
-	$ESmes=$Ob->reportesmes(11,$idrolpersona,$idconceptopago,'S','CAJA','N',$i,$_SESSION['IdSucursal'],$year);
-	$EDmes=$Ob->reportesmes(11,$idrolpersona,$idconceptopago,'D','CAJA','N',$i,$_SESSION['IdSucursal'],$year);
-	
-    $tabla.="<tr class='$estilo'>";
-    $tabla.="<td align='center'>".$Ob->nombremes($i)."</td>";
-	$tabla.="<td align='center'>".number_format($ISmes,2)."</td>";
-	$tabla.="<td align='center'>".number_format(($ISmes-$ESmes),2)."</td>";
-    $tabla.="</tr>";
-	
-	$IS=$IS+$ISmes;
-	$ID=$ID+$IDmes;
-	$ES=$ES+$ESmes;
-	$ED=$ED+$EDmes;
-	$datos1[$i]=$ISmes;
-	$datos2[$i]=$ESmes;
+		if($cont%2) $estilo="par"; else $estilo="impar";
+		$ISmes=$Ob->reporteutilidadmes(1,$idrolpersona,$idconceptopago,'S','VENTA','N',$i,$_SESSION['IdSucursal'],$year);
+
+		$tabla.="<tr class='$estilo'>";
+		$tabla.="<td align='center'>".$Ob->nombremes($i)."</td>";
+		$registro = $ISmes->fetch();
+		$tabla.="<td align='center'>".number_format($registro[0],2)."</td>";
+		$tabla.="<td align='center'>".number_format($registro[1],2)."</td>";
+
+		$tabla.="<td align='center'>".number_format((number_format($registro[0],2)-number_format($registro[1],2)),2)."</td>";
+		$tabla.="</tr>";
+
+		$IS=$IS+$ISmes;
+		$ID=$ID+$IDmes;
+		$ES=$ES+$ESmes;
+		$ED=$ED+$EDmes;
+		$datos1[$i]=$ISmes;
+		$datos2[$i]=$ESmes;
 	}
-	
-	
-	$tabla.="<tr>";
-    $tabla.="<th align='center'>TOTALES :</th>";
-	$tabla.="<th align='center'>S/. ".number_format($IS,2)."</th>";
-	$tabla.="<th align='center'>S/. ".number_format(($IS-$ES),2)."</th>";
-    $tabla.="</tr>";
-	
-  	$tabla.="</table></fieldset>";
+
+
+	$tabla.="</table></fieldset>";
 
 	$tabla.="<center><a href=\"#\" onClick=javascript:window.open('pdf_utilidadRptMes.php?idtipodoc=$idtipodocumento&idrolpersona=$idrolpersona&mesI=$mesinicio&mesF=$mesfin&idconceptopago=$idconceptopago&moneda=$moneda&year=$year','_blank')><img src=\"../imagenes/print_f2.png\" with=20 height=20>&nbsp;Imprimir</a>&nbsp;";
 	$_SESSION['data1']=$datos1;
 	$_SESSION['data2']=$datos2;
-	//$tabla.="<a href=\"#\" onclick=\"javascript: if(document.getElementById('divGrafico').style.display=='') document.getElementById('divGrafico').style.display='none'; else document.getElementById('divGrafico').style.display=''\"><img src=\"../imagenes/estadistica.png\" with=20 height=20>&nbsp;ver Gr&aacute;fico</a></center><br>";
-	//$tabla.='<div id="divGrafico" style="display:none"><center><div id="titulo01">Gr&aacute;fico de ingresos y egresos por mes</div><img src="grafico2arrays.php"/><br><font color="#0033FF">INGRESOS</font>&nbsp;&nbsp;&nbsp;&nbsp;<font color="#FF0000">EGRESOS</font></center></div>';
-			
+		
 	$tabla=utf8_encode($tabla);
 	$obj=new xajaxResponse();
 	$obj->assign("divresultadosreporte","innerHTML",$tabla);

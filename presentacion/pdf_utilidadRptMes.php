@@ -47,16 +47,11 @@ $pdf->Ln();
 $pdf->Cell(30,8,"AÑO: ".$year,0,0,'L');
 $pdf->Ln();
 
-$pdf->SetFont('Arial','B',13);
-$pdf->Cell(35,8,"",2,0,'C');
-$pdf->Cell(35,8,"INGRESO",1,0,'C');
-$pdf->Cell(50,8,"TOTALES",1,0,'C');
-$pdf->Ln();
-
 $pdf->SetFont('Arial','B',11);
 $pdf->Cell(35,8,"MES",1,0,'C');
-$pdf->Cell(35,8,"SOLES",1,0,'C');
-$pdf->Cell(50,8,"TOTAL SOLES",1,0,'C');
+$pdf->Cell(55,8,"VENTAS POR MES (S/.)",1,0,'C');
+$pdf->Cell(55,8,"COMPRAS POR MES (S/.)",1,0,'C');
+$pdf->Cell(55,8,"UTILIDAD POR MES (S/.)",1,0,'C');
 $pdf->SetFont('Arial','',10);
 $pdf->Ln();
 
@@ -78,26 +73,17 @@ $mesF=$mesinicio;
 	$ED=0;
 	
 	for($i=$mesI;$i<=$mesF;$i++){
-	
+	$ISmes=$Ob->reporteutilidadmes(1,$idrolpersona,$idconceptopago,'S','VENTA','N',$i,$_SESSION['IdSucursal'],$year);
+	$registro = $ISmes->fetch();
 	$pdf->Cell(35,8,$Ob->nombremes($i),1,0,'C');
-	$pdf->Cell(35,8,number_format($Ob->reportesmes(10,$idrolpersona,$idconceptopago,'S','CAJA','N',$i,$_SESSION['IdSucursal'],$year),2),1,0,'C');
-	$pdf->Cell(50,8,number_format(($Ob->reportesmes(10,$idrolpersona,$idconceptopago,'S','CAJA','N',$i,$_SESSION['IdSucursal'],$year)-$Ob->reportesmes(11,$idrolpersona,$idconceptopago,'S','CAJA','N',$i,$_SESSION['IdSucursal'],$year)),2),1,0,'C');
+	$pdf->Cell(55,8,number_format($registro[0],2),1,0,'C');
+	$pdf->Cell(55,8,number_format($registro[1],2),1,0,'C');
+	$pdf->Cell(55,8,(number_format($registro[0],2) - number_format($registro[1],2)),1,0,'C');
 	
 	$pdf->SetFont('Arial','',10);
 	$pdf->Ln();
 	
-	$IS=$IS+$Ob->reportesmes(10,$idrolpersona,$idconceptopago,'S','CAJA','N',$i,$_SESSION['IdSucursal'],$year);
-	$ID=$ID+$Ob->reportesmes(10,$idrolpersona,$idconceptopago,'D','CAJA','N',$i,$_SESSION['IdSucursal'],$year);
-	$ES=$ES+$Ob->reportesmes(11,$idrolpersona,$idconceptopago,'S','CAJA','N',$i,$_SESSION['IdSucursal'],$year);
-	$ED=$ED+$Ob->reportesmes(11,$idrolpersona,$idconceptopago,'D','CAJA','N',$i,$_SESSION['IdSucursal'],$year);
 	}
-
-		$pdf->SetFont('Arial','B',10);
-		
-		$pdf->Cell(35,8,'TOTALES:',1,0,'C');
-		$pdf->Cell(35,8,'S/. '.number_format($IS,2),1,0,'C');
-		$pdf->Cell(50,8,'S/. '.number_format(($IS-$ES),2),1,0,'C');
-		$pdf->Ln();
 
 $pdf->SetAutoPageBreak(auto,2); 
 $pdf->Output();

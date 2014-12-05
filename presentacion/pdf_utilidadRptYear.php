@@ -49,16 +49,11 @@ $pdf->Ln();
 //$pdf->Cell(30,8,"ROL PERSONA: ".$rol,0,0,'L');
 //$pdf->Ln();
 
-$pdf->SetFont('Arial','B',13);
-$pdf->Cell(35,8,"",2,0,'C');
-$pdf->Cell(35,8,"INGRESO",1,0,'C');
-$pdf->Cell(50,8,"TOTALES",1,0,'C');
-$pdf->Ln();
-
 $pdf->SetFont('Arial','B',11);
 $pdf->Cell(35,8,"AÑO",1,0,'C');
-$pdf->Cell(35,8,"SOLES",1,0,'C');
-$pdf->Cell(50,8,"TOTAL SOLES",1,0,'C');
+$pdf->Cell(50,8,"VENTAS POR AÑO",1,0,'C');
+$pdf->Cell(50,8,"COMPRAS POR AÑO",1,0,'C');
+$pdf->Cell(50,8,"UTILIDAD POR AÑO",1,0,'C');
 $pdf->SetFont('Arial','',10);
 $pdf->Ln();
 
@@ -81,25 +76,22 @@ $yearF=$yearinicio;
 	
 	for($i=$yearI;$i<=$yearF;$i++){
 	
+	$ISano=$Ob->reporteutilidadyear(1,$idrolpersona,$idconceptopago,'S','VENTA','N',$i,$_SESSION['IdSucursal'],$year);
+	$registro = $ISano->fetch();
+	
 	$pdf->Cell(35,8,$i,1,0,'C');
-	$pdf->Cell(35,8,number_format($Ob->reportesyear(10,$idrolpersona,$idconceptopago,'S','CAJA','N',$i,$_SESSION['IdSucursal'],$year),2),1,0,'C');
-	$pdf->Cell(50,8,number_format(($Ob->reportesyear(10,$idrolpersona,$idconceptopago,'S','CAJA','N',$i,$_SESSION['IdSucursal'],$year)-$Ob->reportesyear(11,$idrolpersona,$idconceptopago,'S','CAJA','N',$i,$_SESSION['IdSucursal'],$year)),2),1,0,'C');
+	$pdf->Cell(50,8,number_format($registro[0],2),1,0,'C');
+	$pdf->Cell(50,8,number_format($registro[1],2),1,0,'C');
+	$pdf->Cell(50,8,(number_format($registro[0],2) - number_format($registro[1],2)),1,0,'C');
 	
 	$pdf->SetFont('Arial','',10);
 	$pdf->Ln();
 	
-	$IS=$IS+$Ob->reportesyear(10,$idrolpersona,$idconceptopago,'S','CAJA','N',$i,$_SESSION['IdSucursal'],$year);
+	/*$IS=$IS+$Ob->reportesyear(10,$idrolpersona,$idconceptopago,'S','CAJA','N',$i,$_SESSION['IdSucursal'],$year);
 	$ID=$ID+$Ob->reportesyear(10,$idrolpersona,$idconceptopago,'D','CAJA','N',$i,$_SESSION['IdSucursal'],$year);
 	$ES=$ES+$Ob->reportesyear(11,$idrolpersona,$idconceptopago,'S','CAJA','N',$i,$_SESSION['IdSucursal'],$year);
-	$ED=$ED+$Ob->reportesyear(11,$idrolpersona,$idconceptopago,'D','CAJA','N',$i,$_SESSION['IdSucursal'],$year);
+	$ED=$ED+$Ob->reportesyear(11,$idrolpersona,$idconceptopago,'D','CAJA','N',$i,$_SESSION['IdSucursal'],$year);*/
 	}
-
-		$pdf->SetFont('Arial','B',10);
-		
-		$pdf->Cell(35,8,'TOTALES:',1,0,'C');
-		$pdf->Cell(35,8,'.S/. '.number_format($IS,2),1,0,'C');
-		$pdf->Cell(50,8,'S/. '.number_format(($IS-$ES),2),1,0,'C');
-		$pdf->Ln();
 
 $pdf->SetAutoPageBreak(auto,2); 
 $pdf->Output();
