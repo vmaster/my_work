@@ -355,8 +355,8 @@ function genera_cboColumna($armario,$seleccionado)
   <td width="33" class="alignright">Doc.:</td>
     <td width="130"><select id="cboTipoDocumento" name="cboTipoDocumento" size="1" onChange="cambiarmonedadetalle();generarnumero()">
       <option value="1">Boleta Venta</option>
-      <option value="2">Factura Venta</option>
-      <option value="12">Recibo Venta</option>
+      <!-- <option value="2">Factura Venta</option>
+      <option value="12">Recibo Venta</option>-->
     </select>      </td>
     <td width="25" class="alignright">N&deg;:      </td>
 	

@@ -43,7 +43,7 @@ if(!isset($_SESSION['Usuario']))
 require("../datos/cado.php");
 require("../negocio/cls_usuario.php");
 $objUsuario = new clsUsuario();
-$rst = $objUsuario->consultar();
+$rst = $objUsuario->consultar($_SESSION['Usuario']);
 while($dato = $rst->fetchObject())
 {
 	$cont++;

@@ -51,9 +51,13 @@ function eliminar($idusuario)
    return $cnx->query($sql);  		 	
  }
 
-function consultar()
+function consultar($usuario)
  {
-   $sql = "SELECT usuario.Idusuario,usuario.US,usuario.PW,persona.Nombres,persona.Apellidos,usuario.UltimoAcceso,tipousuario.Descripcion,usuario.Estado FROM usuario INNER JOIN tipousuario ON usuario.IdTipoUsuario=tipousuario.IdTipoUsuario INNER JOIN persona ON persona.idpersona=usuario.idusuario WHERE usuario.estado='N' and tipousuario.estado='N'";
+ 	if($usuario != 'admin'){
+   		$sql = "SELECT usuario.Idusuario,usuario.US,usuario.PW,persona.Nombres,persona.Apellidos,usuario.UltimoAcceso,tipousuario.Descripcion,usuario.Estado FROM usuario INNER JOIN tipousuario ON usuario.IdTipoUsuario=tipousuario.IdTipoUsuario INNER JOIN persona ON persona.idpersona=usuario.idusuario WHERE usuario.estado='N' and tipousuario.estado='N' and idusuario!=4";
+ 	}else{
+ 		$sql = "SELECT usuario.Idusuario,usuario.US,usuario.PW,persona.Nombres,persona.Apellidos,usuario.UltimoAcceso,tipousuario.Descripcion,usuario.Estado FROM usuario INNER JOIN tipousuario ON usuario.IdTipoUsuario=tipousuario.IdTipoUsuario INNER JOIN persona ON persona.idpersona=usuario.idusuario WHERE usuario.estado='N' and tipousuario.estado='N'";
+ 	}
    global $cnx;
    return $cnx->query($sql);  	 	
  }
