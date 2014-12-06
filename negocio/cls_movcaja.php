@@ -98,7 +98,7 @@ return $valor[0];
 }
 
 function reporteutilidadyear($idtipodocumento,$idrolpersona,$idconceptopago,$moneda,$caja,$estado,$yearI,$idsucursal){
-	$get_pcosto_x_year = "(SELECT SUM(detallemovalmacen.PRECIOCOMPRA) FROM detallemovalmacen INNER JOIN movimiento on detallemovalmacen.idmovimiento = movimiento.idmovimiento WHERE YEAR( movimiento.fecha )='".$yearI."' AND movimiento.IDSUCURSAL='".$idsucursal."' AND movimiento.idtipodocumento='".$idtipodocumento."' AND movimiento.moneda='".$moneda."' AND  movimiento.idconceptopago!=2 GROUP BY YEAR( movimiento.FECHA ))";
+	$get_pcosto_x_year = "(SELECT SUM(detallemovalmacen.PRECIOCOMPRA*detallemovalmacen.cantidad) FROM detallemovalmacen INNER JOIN movimiento on detallemovalmacen.idmovimiento = movimiento.idmovimiento WHERE YEAR( movimiento.fecha )='".$yearI."' AND movimiento.IDSUCURSAL='".$idsucursal."' AND movimiento.idtipodocumento='".$idtipodocumento."' AND movimiento.moneda='".$moneda."' AND  movimiento.idconceptopago!=2 GROUP BY YEAR( movimiento.FECHA ))";
 	if($idrolpersona!='0'){
 
 		$sql="SELECT SUM( movimiento.TOTAL ) AS sumaventa,".$get_pcosto_x_year." AS sumacompra FROM movimiento INNER JOIN tipodocumento ON tipodocumento.IDTIPODOCUMENTO = movimiento.IDTIPODOCUMENTO INNER JOIN persona ON movimiento.IDpersona = persona.IDpersona INNER JOIN rolpersona ON rolpersona.IDpersona = persona.IDpersona INNER JOIN conceptopago ON conceptopago.IDconceptopago = movimiento.IDconceptopago INNER JOIN tipomovimiento ON movimiento.IDtipomovimiento=tipomovimiento.IDtipomovimiento WHERE conceptopago.IDconceptopago!=2 ";
@@ -194,7 +194,7 @@ function reportesmes($idtipodocumento,$idrolpersona,$idconceptopago,$moneda,$caj
 }
 
 function reporteutilidadmes($idtipodocumento,$idrolpersona,$idconceptopago,$moneda,$caja,$estado,$fechaI,$idsucursal,$year){
-	$get_pcosto_x_mes = "(SELECT SUM(detallemovalmacen.PRECIOCOMPRA) FROM detallemovalmacen INNER JOIN movimiento on detallemovalmacen.idmovimiento = movimiento.idmovimiento WHERE MONTH( movimiento.fecha )='".$fechaI."' AND YEAR( movimiento.fecha )='".$year."' AND movimiento.IDSUCURSAL='".$idsucursal."' AND movimiento.idtipodocumento='".$idtipodocumento."' AND movimiento.moneda='".$moneda."' AND  movimiento.idconceptopago!=2 GROUP BY MONTH( movimiento.FECHA ))";
+	$get_pcosto_x_mes = "(SELECT SUM(detallemovalmacen.PRECIOCOMPRA*detallemovalmacen.cantidad) FROM detallemovalmacen INNER JOIN movimiento on detallemovalmacen.idmovimiento = movimiento.idmovimiento WHERE MONTH( movimiento.fecha )='".$fechaI."' AND YEAR( movimiento.fecha )='".$year."' AND movimiento.IDSUCURSAL='".$idsucursal."' AND movimiento.idtipodocumento='".$idtipodocumento."' AND movimiento.moneda='".$moneda."' AND  movimiento.idconceptopago!=2 GROUP BY MONTH( movimiento.FECHA ))";
 	if($idrolpersona!='0'){
 
 		$sql="SELECT SUM( movimiento.TOTAL ) AS sumaventa,".$get_pcosto_x_mes." AS sumacompra  FROM movimiento INNER JOIN tipodocumento ON tipodocumento.IDTIPODOCUMENTO = movimiento.IDTIPODOCUMENTO INNER JOIN persona ON movimiento.IDpersona = persona.IDpersona INNER JOIN rolpersona ON rolpersona.IDpersona = persona.IDpersona INNER JOIN conceptopago ON conceptopago.IDconceptopago = movimiento.IDconceptopago INNER JOIN tipomovimiento ON movimiento.IDtipomovimiento=tipomovimiento.IDtipomovimiento WHERE conceptopago.IDconceptopago!=2 ";
