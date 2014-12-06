@@ -398,7 +398,7 @@ if($moneda=='0'){
 		$ObjMovCaja = new clsMovCaja();
 		$cons_precio_compra = $ObjMovCaja->consultarDetPrecCompPorMovimiento($registro[8]);
 		$precio_compra = $cons_precio_compra->fetch();
-		$tabla.=$precio_compra[0]."</td>";
+		$tabla.=number_format($precio_compra[0],2)."</td>";
 		$tabla.="<td align='center'>".$registro[6]."</td>";
         $tabla.="<td align='center'>".$registro[4]." ".$registro[5]."</td>";
         $tabla.="<td align='center'>".$registro[7]."</td>";

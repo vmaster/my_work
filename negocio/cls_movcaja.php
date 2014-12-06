@@ -641,7 +641,7 @@ return $cnx->query($sql);
 }
 
 function consultarDetPrecCompPorMovimiento($idmovimiento){
-	$sql = "SELECT SUM(detallemovalmacen.preciocompra) as totaldepreciocompra FROM detallemovalmacen INNER JOIN movimiento ON detallemovalmacen.idmovimiento= movimiento.idmovimiento WHERE movimiento.idmovimiento ='".$idmovimiento."'";
+	$sql = "SELECT SUM(detallemovalmacen.preciocompra*detallemovalmacen.cantidad) as totaldepreciocompra FROM detallemovalmacen INNER JOIN movimiento ON detallemovalmacen.idmovimiento= movimiento.idmovimiento WHERE movimiento.idmovimiento ='".$idmovimiento."'";
 	global $cnx;
 	return $cnx->query($sql);
 }
