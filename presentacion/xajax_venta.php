@@ -680,11 +680,11 @@ function generarventas($numero,$idtipodoc,$fechainicio,$fechafin,$formapago, $co
 		}
 	}	
 	
-	if($estado!="Anulado"){
+	/*if($estado!="Anulado"){
 	$registro.="<td><a href='../negocio/cont_venta.php?accion=ANULAR&IdVenta=".$dato->idmovimiento."&IdUsuario=".$idusuario."&IdSucursal=".$idsucursal."'>Anular</a>";
 	}else{
 	$registro.="<td> - ";
-	}
+	}*/
 	$registro.="    </td>";
 	}
 	$registro.="</tr></table>";
@@ -1018,12 +1018,12 @@ if($formapago=="Credito"){
 	$registro.="<td><a href='frm_comprobanteR.php?idventa=".$dato->idmovimiento."&origen=VENTA'>Ver Comprobante</a></td>";
 	}
 		
-	if($estado!="Anulado"){
+	/*if($estado!="Anulado"){
 	$registro.="<td><a href='../negocio/cont_venta.php?accion=ANULAR&IdVenta=".$dato->idmovimiento."&IdUsuario=".$idusuario."&IdSucursal=".$idsucursal."'>Anular</a>";
 	}else{
 	$registro.="<td> - ";
 	}
-	$registro.="</td>";
+	$registro.="</td>";*/
 	
 	}
 	$registro.="</tr></table>";
