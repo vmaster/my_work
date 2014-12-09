@@ -91,8 +91,8 @@ frmListaVenta.cboTipoDoc.disabled=false;
           </select>        </td>
         <td class="alignright">Fecha Inicial:</td>
     <td><input name="txtFechaRegistro" type="text" id="txtFechaRegistro" value="<?php 
-//$mysql_date = date("Y-m-d"); 
-//echo $mysql_date;
+$mysql_date = $fechaproceso; 
+echo $mysql_date;
 ?>" size="10">
             <button type="button" id="btnCalendar" class="boton"><img src="../imagenes/b_views.png"> </button>
           <script type="text/javascript">//<![CDATA[
