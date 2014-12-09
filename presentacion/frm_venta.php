@@ -410,7 +410,7 @@ cal.manageFields("btnCalendar", "txtFechaRegistro", "%Y-%m-%d");
     <td align="right">&nbsp;</td>
     <td>&nbsp;</td>
   </tr>
-  <tr>
+  <tr style="display:none;">
     <td class="alignright">Venta Ref.</td>
     <td><input type="hidden" name="txtIdMovimientoRef" id="txtIdMovimientoRef" value="0">
       <input type="hidden" name="txtIdSucursalRef" id="txtIdSucursalRef" value="0">
