@@ -188,6 +188,7 @@ session_start();
 		$cnx->beginTransaction();
 		
 		$numero=$ObjMov->verificarcierrecaja($_SESSION['FechaProceso'],$_SESSION['IdSucursal']);
+		/*
 	if($numero!=1){
 		if($numero==2){
 		$frase1=" <script>alert(' *** CAJA esta cerrada, NO puede anular venta!! ***');</script>";
@@ -197,7 +198,7 @@ session_start();
 		$frase2=" <META HTTP-EQUIV=Refresh CONTENT='0;URL= ../presentacion/list_ventas.php?'>";
 		}
 	}
-		
+	*/
 		$ventas=$ObjMov->consultarventa(2,$_GET['IdVenta'],NULL,NULL,NULL,NULL,NULL,NULL,NULL);
 		$venta=$ventas->fetchObject();
 		
@@ -268,13 +269,13 @@ session_start();
 	
 }else{//venta al contado
 
-	if($numero==1){//verificamos caja
-		$mov2=$ObjMov->consultarcajaventa($_GET['IdVenta']);
+	if($numero==1 or $numero==3){//verificamos caja
+		/*$mov2=$ObjMov->consultarcajaventa($_GET['IdVenta']);
 		if($mov2->rowCount()>0){//si hay amortizacion
 			echo "<script>alert(' *** No se puede eliminar este documento de venta porque ya tiene una amortización ***');</script>";
 		
 			echo "<META HTTP-EQUIV=Refresh CONTENT='0;URL= ../presentacion/list_ventas.php?'>";
-		}else{
+		}else{*/
 		
 			$ObjMov->anular($_GET['IdVenta']);
 			$detalle=	$ObjMov->consultardetalleventa($_GET['IdVenta']);	
@@ -296,7 +297,7 @@ session_start();
 		 
 		header('Location: ../presentacion/list_ventas.php');
 		
-		}
+		//}
 
 	}else{//si hay problemas en caja
 	
