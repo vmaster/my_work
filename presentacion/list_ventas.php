@@ -131,7 +131,7 @@ cal.manageFields("btnCalendar2", "txtFechaRegistro2", "%Y-%m-%d");
 //]]></script></td>
         <td width="71">&nbsp;</td>
         <td width="63"><input name = 'BUSCAR' type='button' id="BUSCAR" value = 'BUSCAR' onClick="enlistar()"></td>
-        <td width="98"><input name = 'NUEVO' type='button' id="NUEVO" value = 'NUEVA VENTA' onClick="javascript:window.open('frm_venta.php','_self')"></td>
+        <td width="98"><input name = 'NUEVO' type='button' id="NUEVO" value = 'NUEVA VENTA' onClick="javascript:window.open('frm_venta.php?accion=NUEVO','_self')"></td>
         </tr>
     </table>
     </fieldset>

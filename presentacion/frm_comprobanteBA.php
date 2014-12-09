@@ -40,6 +40,6 @@ function generarFactura(id){
 	</div>
 </div>
 <div align="center"><a href="javascript:imprimir('boleta')">IMPRIMIR BOLETA</a></div>
-<div align="center"><a href="<?php if(isset($_GET['REF'])){echo "frm_detalleventa.php?IdVenta=".$_GET['idventa'];}else{ if($_GET['origen']=='VENTA') echo "list_ventas.php"; else echo "list_pedidoventa.php";}?>"> REGRESAR </a> </div>
+<div align="center"><a href="<?php if(isset($_GET['REF'])){echo "frm_detalleventa.php?IdVenta=".$_GET['idventa'];}else{ if($_GET['origen']=='VENTA') echo "list_ventas.php"; /*else echo "list_pedidoventa.php";*/}?>"> REGRESAR </a> </div>
 </body>
 </html>

@@ -336,8 +336,8 @@ function genera_cboColumna($armario,$seleccionado)
                 <li><a href='../negocio/cont_usuario.php?accion=LOGOUT'><img src="../imagenes/door_in.png" alt="salir" width="16" height="16" longdesc="Cerrar Sesión"> Cerrar sesion </a></li>
             </ul>
 </div>
-<div id="titulo01">REGISTRO DE DOCUMENTOS DE VENTA </div>
-<form id="frmVenta" action="../negocio/cont_venta.php?accion=NUEVO&origen=<?php if($_GET['accion']=='NUEVO') echo 'VENTA'; else echo 'PEDIDO';?>" method="POST" onSubmit='return check_form(frmVenta);'>
+<div id="titulo01">REGISTRO DE DOCUMENTOS DE VENTA</div>
+<form id="frmVenta" action="../negocio/cont_venta.php?accion=NUEVO&origen=<?php if($_GET['accion']=='NUEVO') echo 'VENTA'; //else echo 'PEDIDO';?>" method="POST" onSubmit='return check_form(frmVenta);'>
 <table>
 <tr>
 <td colspan="3">
