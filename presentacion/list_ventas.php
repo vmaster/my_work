@@ -72,8 +72,8 @@ frmListaVenta.cboTipoDoc.disabled=false;
   <div id='divParametros'>
     <fieldset>
       <legend>Ventas</legend>
-      <table width="100%" border="0">
-      <tr>
+      <table  border="0">
+      <tr style="display:none;">
         <td class="alignright">Ver: </td>
         <td><select name="cboVer" id="cboVer" onChange="activacion()">
           <option value="0">Todos..</option>
@@ -83,8 +83,8 @@ frmListaVenta.cboTipoDoc.disabled=false;
         <td></td><td></td><td></td><td></td><td></td><td rowspan="3" align="center"><img src="../imagenes/Spreadsheet.png" height="100" width="100"></td>
         </tr>
       <tr>
-        <td class="alignright">Forma Pago:</td>
-        <td><select name="cboFormaPago" id="cboFormaPago">
+        <td class="alignright" style="display:none;">Forma Pago:</td>
+        <td style="display:none;"><select name="cboFormaPago" id="cboFormaPago">
             <option value="F">Todos..</option>
             <option value="A">Contado</option>
             <option value="B">Credito</option>
@@ -108,15 +108,15 @@ cal.manageFields("btnCalendar", "txtFechaRegistro", "%Y-%m-%d");
         <td>&nbsp;</td>
         </tr>
       <tr>
-        <td width="83" class="alignright">Tipo Doc.:</td>
-        <td width="122"><select name="cboTipoDoc" id="cboTipoDoc">
+        <td width="83" class="alignright" style="display:none;">Tipo Doc.:</td>
+        <td width="122" style="display:none;"><select name="cboTipoDoc" id="cboTipoDoc">
             <option value="0">Todos..</option>
             <option value="1">Boleta Venta</option>
             <option value="2">Factura Venta</option>
 			<option value="12">Recibo Venta</option>
         </select></td>
         <td width="83" class="alignright">Fecha Final:</td>
-    <td width="111"><input name="txtFechaRegistro2" type="text" id="txtFechaRegistro2" value="<?php 
+    	<td><input name="txtFechaRegistro2" type="text" id="txtFechaRegistro2" value="<?php 
 $mysql_date = $fechaproceso; 
 echo $mysql_date;
 ?>" size="10">
