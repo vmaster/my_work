@@ -7,6 +7,7 @@ require("cls_detallemovalmacen.php");
 require("cls_bitacora.php");
 require("cls_ubigeo.php");
 controlador($_GET['accion']);
+date_default_timezone_set('america/lima');
 //if($_GET['accion']=='NUEVAGUIA'){
 //header('Location: ../presentacion/list_guias.php');
 //}else{
@@ -35,7 +36,18 @@ session_start();
 		$numero="0";
 		}
 		
-		$ObjMov->insertar(NULL, 2,$_POST['txtIdSucursal'], 3, $numero, $_POST['cboTipoDocumento'], $_POST['cboTipoVenta'], $_POST['txtFechaRegistro'],$_POST['cboMoneda'], $_POST['txtSubtotal'], $_POST['txtIgv'],$_POST['txtTotal'], $_POST['txtIdUsuario'], $_POST['txtIdPersona'],$_POST['txtIdResponsable'],$_POST['txtIdMovimientoRef'], $_POST['txtIdSucursalRef'], $_POST['txtComentario'], 'N');
+		if(isset($_POST['txtFechaRegistro']) || $_POST['txtFechaRegistro'] || $_POST['txt_FechaRegistro'] != ''){
+			date_default_timezone_set('america/lima');
+			$time = date("H:i:s");
+			$date = date_create($_POST['txtFechaRegistro']);
+			$date_formato = date_format($date, "Y-m-d");
+			$date_registro = $date_formato." ".$time;
+		}else{
+			$date_registro = date("Y-m-d H:i:s");
+		}
+		
+		
+		$ObjMov->insertar(NULL, 2,$_POST['txtIdSucursal'], 3, $numero, $_POST['cboTipoDocumento'], $_POST['cboTipoVenta'], $date_registro,$_POST['cboMoneda'], $_POST['txtSubtotal'], $_POST['txtIgv'],$_POST['txtTotal'], $_POST['txtIdUsuario'], $_POST['txtIdPersona'],$_POST['txtIdResponsable'],$_POST['txtIdMovimientoRef'], $_POST['txtIdSucursalRef'], $_POST['txtComentario'], 'N');
 		
 		$rs = $ObjMov->obtenerLastIdVenta($numero,2,$_POST['cboTipoDocumento'],$_POST['txtIdSucursal']);
 		$dato = $rs->fetchObject();
@@ -58,7 +70,7 @@ session_start();
 		}
 		
    		foreach($cuotasventa as $r=>$v){
-		$ObjMov->insertarcuota(NULL, $v['numero'], $idmov,$_POST['txtFechaRegistro'], $v['fecha'],NULL,$_POST['cboMoneda'],$v['subtotal'],$v['interes'],NULL, NULL,"N");}		
+		$ObjMov->insertarcuota(NULL, $v['numero'], $idmov,$date_registro, $v['fecha'],NULL,$_POST['cboMoneda'],$v['subtotal'],$v['interes'],NULL, NULL,"N");}		
 		
 		}else{
 		

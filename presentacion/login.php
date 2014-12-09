@@ -124,6 +124,7 @@ body {
 </div>
 <?php  
 require("../datos/cado.php");
+date_default_timezone_set('america/lima');
 function genera_cboSucursal($seleccionado)
 {
 

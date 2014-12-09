@@ -64,7 +64,7 @@ $detalle=$objMovimiento->consultardetalleventa($idventa);
 	else
 		$color=" ";
 	$registros.="<tr>
-    <td align='right' $color>".$dato->cantidad."&nbsp;&nbsp;</td>";
+    <td align='right' $color>".intval($dato->cantidad)."&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</td>";
 	$descripcion=$dato->producto.'-'.$dato->peso.$dato->unidadpeso."";
 	if(strlen($descripcion)>=36){
 		$descripcion=substr($descripcion,0,35);
@@ -149,6 +149,7 @@ $detalle=$objMovimiento->consultardetalleventa($idventa);
 	$obj->assign("diaFecha","innerHTML","&nbsp;&nbsp;&nbsp;&nbsp;".substr($detalle2->fecha,0,2));
 	$obj->assign("mesFecha","innerHTML","&nbsp;&nbsp;&nbsp;".substr($detalle2->fecha,3,2));
 	$obj->assign("anioFecha","innerHTML","&nbsp;&nbsp;&nbsp;".substr($detalle2->fecha,6,4));
+	$obj->assign("horaFecha","innerHTML"," &nbsp;&nbsp;&nbsp".substr($detalle2->fecha,11,10));
 	
 	$obj->assign("divNombreCliente","innerHTML","&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;".$detalle2->cliente.' '.$detalle2->acliente);
 	$obj->assign("divTP","innerHTML",$FP);

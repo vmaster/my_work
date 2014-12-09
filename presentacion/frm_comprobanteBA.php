@@ -32,6 +32,7 @@ function generarFactura(id){
 			<span id="diaFecha"></span><span>/</span>
 			<span id="mesFecha"></span><span>/</span>
 			<span id="anioFecha"></span>
+			<span id="horaFecha"></span>
 		</div>
 		<div id="divNombreCliente" style="font-size:12px; position: relative; top: 28px; left: 24px; width: 300px;"></div>
 		<div id='DivDetalleVenta' style="font-size:12px; position: relative; top: 58px; left: -20px;"></div>

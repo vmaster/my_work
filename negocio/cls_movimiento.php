@@ -4,7 +4,7 @@ class clsMovimiento
 
 function insertar($idmovimiento,$idtipomovimiento, $idsucursal, $idconceptopago, $numero, $idtipodocumento, $formapago,$fecha,$moneda,$subtotal,$igv,$total,$idusuario,$idpersona,$idresponsable,$idmovimientoref,$idsucursalref,$comentario,$estado)
  {
-   $sql = "INSERT INTO movimiento(idmovimiento, idsucursal, idtipomovimiento, idconceptopago, numero, idtipodocumento, formapago, fecha, moneda, subtotal, igv, total, idusuario, idpersona, idresponsable, idmovimientoref, idsucursalref, comentario, estado) VALUES(NULL,'" . $idsucursal . "',".$idtipomovimiento.",'". $idconceptopago ."','". $numero . "','".$idtipodocumento."','".$formapago."','".$fecha."','".$moneda."','".$subtotal."','".$igv."','".$total."','".$idusuario."','".$idpersona."','".$idresponsable."','".$idmovimientoref."','".$idsucursalref."','".$comentario."','".$estado."')";
+ 	$sql = "INSERT INTO movimiento(idmovimiento, idsucursal, idtipomovimiento, idconceptopago, numero, idtipodocumento, formapago, fecha, moneda, subtotal, igv, total, idusuario, idpersona, idresponsable, idmovimientoref, idsucursalref, comentario, estado) VALUES(NULL,'" . $idsucursal . "',".$idtipomovimiento.",'". $idconceptopago ."','". $numero . "','".$idtipodocumento."','".$formapago."','".$fecha."','".$moneda."','".$subtotal."','".$igv."','".$total."','".$idusuario."','".$idpersona."','".$idresponsable."','".$idmovimientoref."','".$idsucursalref."','".$comentario."','".$estado."')";
       
    global $cnx;
    return $cnx->query($sql) or die($sql);
@@ -309,7 +309,8 @@ $sql="select numero from movimiento where movimiento.idtipomovimiento='".$idtipo
 }
 
 function consultarventa($idtipomovimiento,$idmovimiento,$idsucursal,$numero, $idtipodocumento,$fechainicio,$fechafin, $formapago, $conguia){
- $sql="SELECT  movimiento.idmovimientoref, mov.idmovimiento as idguia,mov.idtipodocumento as numguia, DATE_FORMAT(movimiento.fechainiciotraslado,'%d/%m/%Y') as fechatraslado, movimiento.idmotivotraslado, movimiento.idtransportista, movimiento.idlugardestino,movimiento.idlugarpartida, movimiento.idmovimiento,movimiento.idtipomovimiento,movimiento.idconceptopago,movimiento.numero ,movimiento.formapago, DATE_FORMAT(movimiento.fecha,'%d/%m/%Y') as fecha,movimiento.idsucursal, sucursal.apellidos as sucursal, movimiento.idpersona as idcliente,persona.nombres as cliente,persona.apellidos as acliente, movimiento.total, movimiento.igv,movimiento.subtotal, movimiento.idusuario,usuario.us as usuario, movimiento.idtipodocumento, movimiento.estado,tipodocumento.descripcion as documento, movimiento.idresponsable, resp.nombres as responsable, resp.apellidos as aresponsable, movimiento.moneda, movimiento.comentario, kardex.idmovimiento as kardex FROM movimiento inner join persona sucursal on sucursal.idpersona=movimiento.idsucursal inner join persona on persona.idpersona=movimiento.idpersona inner join tipodocumento on movimiento.idtipodocumento=tipodocumento.idtipodocumento inner join usuario on usuario.idusuario=movimiento.idusuario inner join persona resp on resp.idpersona = movimiento.idresponsable left join kardex on movimiento.idmovimiento=kardex.idmovimiento left join movimiento mov on (movimiento.idmovimiento=mov.IdMovimientoref and mov.IdTipoMovimiento=2 and mov.Estado='N') WHERE movimiento.idtipomovimiento=".$idtipomovimiento;
+ $sql="SELECT  movimiento.idmovimientoref, mov.idmovimiento as idguia,mov.idtipodocumento as numguia, DATE_FORMAT(movimiento.fechainiciotraslado,'%d/%m/%Y') as fechatraslado, movimiento.idmotivotraslado, movimiento.idtransportista, movimiento.idlugardestino,movimiento.idlugarpartida, movimiento.idmovimiento,movimiento.idtipomovimiento,movimiento.idconceptopago,movimiento.numero ,movimiento.formapago, DATE_FORMAT(movimiento.fecha,'%d/%m/%Y %h:%i:%s%p') as fecha,movimiento.idsucursal, sucursal.apellidos as sucursal, movimiento.idpersona as idcliente,persona.nombres as cliente,persona.apellidos as acliente, movimiento.total, movimiento.igv,movimiento.subtotal, movimiento.idusuario,usuario.us as usuario, movimiento.idtipodocumento, movimiento.estado,tipodocumento.descripcion as documento, movimiento.idresponsable, resp.nombres as responsable, resp.apellidos as aresponsable, movimiento.moneda, movimiento.comentario, kardex.idmovimiento as kardex FROM movimiento inner join persona sucursal on sucursal.idpersona=movimiento.idsucursal inner join persona on persona.idpersona=movimiento.idpersona inner join tipodocumento on movimiento.idtipodocumento=tipodocumento.idtipodocumento inner join usuario on usuario.idusuario=movimiento.idusuario inner join persona resp on resp.idpersona = movimiento.idresponsable left join kardex on movimiento.idmovimiento=kardex.idmovimiento left join movimiento mov on (movimiento.idmovimiento=mov.IdMovimientoref and mov.IdTipoMovimiento=2 and mov.Estado='N') WHERE movimiento.idtipomovimiento=".$idtipomovimiento;
+ 
  if(isset($idmovimiento))
  	$sql = $sql . " AND movimiento.idmovimiento=".$idmovimiento;
  if(isset($idsucursal))
@@ -317,9 +318,9 @@ function consultarventa($idtipomovimiento,$idmovimiento,$idsucursal,$numero, $id
  if(isset($numero))
  	$sql = $sql . " AND movimiento.numero LIKE '%".$numero."%'";
  if(isset($fechainicio) && $fechainicio!="")
-	$sql = $sql . " AND movimiento.fecha >= '".trim($fechainicio)."'";
+	$sql = $sql . " AND movimiento.fecha >= DATE_FORMAT('".trim($fechainicio)."','%Y/%m/%d 01:00:00')";
  if(isset($fechafin) && $fechafin!="")
-	$sql = $sql . " AND movimiento.fecha <= '".trim($fechafin)."'";
+	$sql = $sql . " AND movimiento.fecha <= DATE_FORMAT('".trim($fechafin)."','%Y/%m/%d 23:00:00')";
  if(isset($idtipodocumento)){
 	$sql = $sql . " AND movimiento.idtipodocumento=".$idtipodocumento;
  } 	else{
